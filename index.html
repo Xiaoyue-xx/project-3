@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f3ff">
+    <meta
+      name="description"
+      content="Weather-based outfit and carry-item recommendations for college students."
+    >
+    <title>What to Wear?</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script type="module" src="scripts/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+      <a class="wordmark" href="./" aria-label="What to Wear? home">
+        <span aria-hidden="true">✦</span>
+        What to Wear?
+      </a>
+
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a aria-current="page" href="#today">Today</a>
+        <a href="#forecast">7-Day</a>
+        <a href="#information">Information</a>
+      </nav>
+    </header>
+
+    <main id="main-content" class="app-shell">
+      <section id="today" class="intro-card" aria-labelledby="page-title">
+        <p class="eyebrow">Weather outfits for your day</p>
+        <h1 id="page-title">Dress for the forecast.</h1>
+        <p>
+          Live weather, character outfits, and useful carry-item reminders will
+          appear here as each tested checkpoint is completed.
+        </p>
+        <button type="button" data-start-button>Start with a location</button>
+      </section>
+
+      <section class="status-card" aria-labelledby="build-status-title">
+        <h2 id="build-status-title">Build status</h2>
+        <p data-app-status role="status" aria-live="polite">Loading the app shell…</p>
+      </section>
+
+      <section id="forecast" class="placeholder-card" aria-labelledby="forecast-title">
+        <h2 id="forecast-title">7-day forecast</h2>
+        <p>Forecast controls and recommendation states are coming next.</p>
+      </section>
+
+      <section id="information" class="placeholder-card" aria-labelledby="information-title">
+        <h2 id="information-title">Information</h2>
+        <p>
+          Created by xiaoyuex_x with AI assistance. Weather data will be provided
+          by Open-Meteo.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Prototype in active development.</p>
+    </footer>
+  </body>
+</html>
