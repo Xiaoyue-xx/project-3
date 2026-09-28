@@ -56,9 +56,9 @@ When the Developer directs the Agent to save the transcript, save the entire cur
 
 - `index.html`: semantic application shell.
 - `styles/`: responsive visual system.
-- `scripts/`: application modules and rendering code.
+- `scripts/`: application modules and rendering code; `recommendation.js` owns the pure weather rules.
 - `assets/`: original production SVG artwork only.
 - `data/`: application-owned manifests and non-sensitive fixtures.
-- `tests/`: Node tests for recommendation, data, persistence, and baseline behavior.
+- `tests/`: Node tests and deterministic fixtures for recommendation, data, persistence, and baseline behavior.
 - `reference/`: research references and approved screen drawings; never ship these images as production art.
 - `transcripts/`: saved Developer/Agent conversations required by the project workflow.
