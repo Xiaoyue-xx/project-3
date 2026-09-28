@@ -11,3 +11,6 @@ must not be committed here.
 
 This directory will contain application-owned content manifests. Live weather
 responses and precise device locations must not be committed.
+
+`content.js` owns the 45 reviewed semantic outfit recipes, equivalent male and
+female fits, protective-layer rules, and the English reminder wording.
