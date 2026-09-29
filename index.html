@@ -3,63 +3,108 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f7f3ff">
-    <meta
-      name="description"
-      content="Weather-based outfit and carry-item recommendations for college students."
-    >
+    <meta name="theme-color" content="#fff8ef">
+    <meta name="description" content="Weather-based outfit and carry-item recommendations for college students.">
     <title>What to Wear?</title>
     <link rel="stylesheet" href="styles/main.css">
     <script type="module" src="scripts/app.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
-
     <header class="site-header">
       <a class="wordmark" href="./" aria-label="What to Wear? home">
-        <span aria-hidden="true">✦</span>
-        What to Wear?
+        <span class="wordmark-sparkle" aria-hidden="true">✦</span>
+        <span>What to Wear?</span>
+        <svg class="wordmark-weather" aria-hidden="true" viewBox="0 0 96 96"><use href="assets/art.svg#weather-partly-cloudy"></use></svg>
       </a>
-
-      <nav class="primary-nav" aria-label="Primary navigation">
-        <a aria-current="page" href="#today">Today</a>
-        <a href="#forecast">7-Day</a>
-        <a href="#information">Information</a>
+      <button class="location-control" type="button" data-open-location>
+        <svg aria-hidden="true" viewBox="0 0 96 96"><use href="assets/art.svg#status-location"></use></svg>
+        <span data-location-label>Choose location</span><span aria-hidden="true">⌄</span>
+      </button>
+      <nav class="view-switch" aria-label="Forecast view">
+        <button type="button" data-view-button="today" aria-pressed="true">Today</button>
+        <button type="button" data-view-button="forecast" aria-pressed="false">7-Day</button>
       </nav>
+      <fieldset class="unit-switch" aria-label="Temperature units">
+        <legend class="visually-hidden">Temperature units</legend>
+        <button type="button" data-unit="fahrenheit" aria-pressed="true">°F</button>
+        <button type="button" data-unit="celsius" aria-pressed="false">°C</button>
+      </fieldset>
+      <button class="information-button" type="button" data-open-information>
+        <svg aria-hidden="true" viewBox="0 0 96 96"><use href="assets/art.svg#status-information"></use></svg>
+        <span>Information</span>
+      </button>
     </header>
 
-    <main id="main-content" class="app-shell">
-      <section id="today" class="intro-card" aria-labelledby="page-title">
+    <main id="main-content" class="app-shell" data-app-shell data-view="today">
+      <p class="visually-hidden" data-app-status role="status" aria-live="polite"></p>
+      <section class="empty-state" data-empty-state aria-labelledby="empty-title">
+        <div class="empty-art" aria-hidden="true">
+          <svg viewBox="0 0 96 96"><use href="assets/art.svg#weather-partly-cloudy"></use></svg><span>✦</span>
+        </div>
         <p class="eyebrow">Weather outfits for your day</p>
-        <h1 id="page-title">Dress for the forecast.</h1>
-        <p>
-          Live weather, character outfits, and useful carry-item reminders will
-          appear here as each tested checkpoint is completed.
-        </p>
-        <button type="button" data-start-button>Start with a location</button>
+        <h1 id="empty-title">Ready for the forecast?</h1>
+        <p data-empty-message>Choose a US city to see a seven-day forecast, a complete outfit, and what to bring.</p>
+        <button type="button" data-open-location>Choose a location</button>
       </section>
 
-      <section class="status-card" aria-labelledby="build-status-title">
-        <h2 id="build-status-title">Build status</h2>
-        <p data-app-status role="status" aria-live="polite">Loading the app shell…</p>
-      </section>
+      <section class="weather-experience" data-weather-experience hidden aria-label="Weather outfit recommendation">
+        <div class="date-strip-wrap"><div class="date-strip" data-date-strip aria-label="Choose a forecast date"></div></div>
+        <div class="desktop-grid">
+          <section class="weather-character card" aria-labelledby="weather-heading">
+            <div class="card-heading-row">
+              <div><p class="eyebrow" data-context-label>Current weather</p><h1 id="weather-heading" data-selected-date>Today</h1></div>
+              <span class="source-badge" data-source-badge>Open-Meteo</span>
+            </div>
+            <div class="weather-summary">
+              <svg class="weather-icon" data-weather-icon aria-hidden="true" viewBox="0 0 96 96"></svg>
+              <div><p class="temperature" data-primary-temperature>—</p><p class="condition" data-condition>Conditions unavailable</p><p class="feels-like" data-feels-like></p></div>
+            </div>
+            <dl class="weather-facts" data-weather-facts></dl>
+            <figure class="character-stage">
+              <span class="stage-sticker" aria-hidden="true">Today’s look! ♡</span>
+              <svg class="character-art" data-character-art viewBox="0 0 260 480" role="img" aria-label="Weather-ready outfit"></svg>
+              <svg class="stage-skyline" aria-hidden="true" viewBox="0 0 320 120"><use href="assets/art.svg#decor-skyline"></use></svg>
+            </figure>
+          </section>
 
-      <section id="forecast" class="placeholder-card" aria-labelledby="forecast-title">
-        <h2 id="forecast-title">7-day forecast</h2>
-        <p>Forecast controls and recommendation states are coming next.</p>
-      </section>
+          <div class="recommendation-column">
+            <section class="outfit-card card" aria-labelledby="outfit-heading">
+              <div class="card-heading-row">
+                <div><p class="eyebrow">Weather-ready layers</p><h2 id="outfit-heading">Outfit suggestion</h2></div>
+                <button class="text-button" type="button" data-open-outfit>Details</button>
+              </div>
+              <p class="recommendation-copy" data-recommendation-text></p>
+              <ul class="outfit-items" data-outfit-items></ul>
+            </section>
+            <section class="carry-card card" aria-labelledby="carry-heading">
+              <div class="card-heading-row">
+                <div><p class="eyebrow">Plan your walk</p><h2 id="carry-heading">Bring with you</h2></div>
+                <button class="text-button" type="button" data-open-carry>Details</button>
+              </div>
+              <div class="reminder-grid" data-reminders></div>
+            </section>
+            <p class="recommendation-note">Suggestions are practical guidance, not safety or medical advice.</p>
+          </div>
 
-      <section id="information" class="placeholder-card" aria-labelledby="information-title">
-        <h2 id="information-title">Information</h2>
-        <p>
-          Created by xiaoyuex_x with AI assistance. Weather data will be provided
-          by Open-Meteo.
-        </p>
+          <section class="forecast-card card" id="forecast" aria-labelledby="forecast-heading">
+            <div class="card-heading-row"><div><p class="eyebrow">Selected location</p><h2 id="forecast-heading">7-day forecast</h2></div></div>
+            <div class="forecast-list" data-forecast-list></div>
+          </section>
+        </div>
+        <footer class="data-footer"><span data-data-context></span><span data-fetched-time></span></footer>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <p>Prototype in active development.</p>
-    </footer>
+    <template id="date-button-template">
+      <button class="date-button" type="button"><span class="date-weekday"></span><span class="date-calendar"></span></button>
+    </template>
+    <template id="forecast-row-template">
+      <button class="forecast-row" type="button">
+        <span class="forecast-date"><strong></strong><small></small></span>
+        <svg class="forecast-icon" aria-hidden="true" viewBox="0 0 96 96"></svg>
+        <span class="forecast-condition"></span><span class="forecast-temperatures"></span>
+      </button>
+    </template>
   </body>
 </html>

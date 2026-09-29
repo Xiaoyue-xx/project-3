@@ -10,6 +10,9 @@ test("the document declares an English responsive application shell", () => {
   assert.match(html, /name="viewport"/);
   assert.match(html, /<main id="main-content"/);
   assert.match(html, /aria-live="polite"/);
+  assert.match(html, /data-weather-experience/);
+  assert.match(html, /data-character-art/);
+  assert.match(html, /data-forecast-list/);
 });
 
 test("the shell loads local CSS and an ES module", () => {
@@ -18,6 +21,17 @@ test("the shell loads local CSS and an ES module", () => {
 });
 
 test("the baseline includes responsive and reduced-motion rules", () => {
-  assert.match(css, /@media \(max-width: 48rem\)/);
+  assert.match(css, /@media \(max-width: 63\.99rem\)/);
+  assert.match(css, /@media \(min-width: 64rem\)/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(css, /grid-template-columns: minmax\(18rem, 1\.05fr\).*minmax\(22rem, 1\.15fr\).*minmax\(18rem, 0\.8fr\)/);
+  assert.match(css, /min-width: 20rem/);
+});
+
+test("the main screen exposes complete location, date, unit, and source context", () => {
+  assert.match(html, /data-location-label/);
+  assert.match(html, /data-date-strip/);
+  assert.match(html, /data-unit="fahrenheit"/);
+  assert.match(html, /data-source-badge/);
+  assert.match(html, />7-Day</);
 });
