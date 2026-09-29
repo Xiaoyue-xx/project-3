@@ -1,0 +1,116 @@
+:root {
+  color: #241c35;
+  background: #f7f3ff;
+  font-family: ui-rounded, "Trebuchet MS", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; }
+
+header,
+main {
+  width: min(100% - 2rem, 92rem);
+  margin-inline: auto;
+}
+
+header { padding-block: 2.5rem 1.5rem; }
+
+h1,
+h2,
+p { margin-block-start: 0; }
+
+.eyebrow {
+  margin-bottom: 0.35rem;
+  color: #4733bd;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 0.18rem solid #2e2640;
+  border-radius: 1.5rem;
+  background: #fffdf9;
+  box-shadow: 0.45rem 0.45rem 0 #dcd4ff;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+select {
+  min-height: 2.75rem;
+  margin-left: 0.35rem;
+  border: 0.13rem solid #2e2640;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+
+.outfit-grid,
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.8rem;
+}
+
+.outfit-card,
+.icon-card {
+  min-width: 0;
+  border: 0.12rem solid #2e2640;
+  border-radius: 1rem;
+  background: linear-gradient(145deg, #e8f7ff, #fff5df);
+  overflow: hidden;
+}
+
+.outfit-card[hidden] { display: none; }
+
+.outfit-card svg {
+  display: block;
+  width: 100%;
+  aspect-ratio: 13 / 20;
+}
+
+.card-copy { padding: 0.75rem; }
+
+.card-copy p {
+  margin: 0.25rem 0 0;
+  color: #4b425d;
+  font-size: 0.78rem;
+}
+
+.icon-grid { grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); }
+
+.icon-card {
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.icon-card svg {
+  width: 4rem;
+  height: 4rem;
+}
+
+.icon-card p {
+  margin: 0.5rem 0 0;
+  font-size: 0.72rem;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 36rem) {
+  .section-heading { align-items: stretch; flex-direction: column; }
+  .outfit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  section { padding: 0.75rem; }
+}
+
+@media (max-width: 21rem) {
+  .outfit-grid { grid-template-columns: 1fr; }
+}

@@ -252,6 +252,7 @@ Record features intentionally excluded from this project.
 After implementation or testing, record requirement changes and the evidence that prompted them. Update the screen drawings when a material layout or interaction changes.
 
 - **September 28, 2026 — Initial specification draft:** Consolidated the Developer's phone flow into two navigable screens and panels, selected Desktop Main Layout 1, removed multiple saved locations and notifications, limited styles to the approved three, and retained Fahrenheit as the default. The original phone and desktop sketches were saved in `reference/` and linked above.
+- **September 28, 2026 — Asset inventory refinement:** Construction produced 90 reusable SVG symbols: 2 character bases with integrated face/hair details, 25 upper-body layers, 14 lower-body layers, 10 footwear layers, 8 modifier/accessory layers, 10 weather icons, 7 reminder icons, 6 status icons, and 8 decorative symbols. Fog and unknown-state icons increased the weather count from the approximate table, while integrated character details replaced separate face/hair symbols. Recipe, style, category, and presentation coverage did not change.
 
 ## Approval
 

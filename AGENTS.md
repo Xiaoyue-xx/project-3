@@ -50,6 +50,7 @@ When the Developer directs the Agent to save the transcript, save the entire cur
 
 - Run `npm run serve`, then open `http://localhost:4173`.
 - Run `npm test` for the Node built-in test suite.
+- Run `npm run preview:assets` to generate temporary SVG alignment previews.
 - The app is static and uses native ES modules; it has no runtime framework or build step.
 
 ## Structure
@@ -57,7 +58,8 @@ When the Developer directs the Agent to save the transcript, save the entire cur
 - `index.html`: semantic application shell.
 - `styles/`: responsive visual system.
 - `scripts/`: application modules and rendering code; `recommendation.js` owns the pure weather rules and `variation.js` owns stable content selection.
-- `assets/`: original production SVG artwork only.
+- `assets/`: original production SVG artwork only; `art.svg` is the reusable symbol sprite.
+- `dev/`: development-only asset gallery and preview generation tools.
 - `data/`: application-owned manifests, including the reviewed outfit and reminder content.
 - `tests/`: Node tests and deterministic fixtures for recommendation, data, persistence, and baseline behavior.
 - `reference/`: research references and approved screen drawings; never ship these images as production art.
