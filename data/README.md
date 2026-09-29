@@ -9,6 +9,11 @@ change the selected recommendation.
 Deterministic test fixtures live in `tests/fixtures/`; live provider responses
 must not be committed here.
 
+`tests/fixtures/open-meteo.js` contains synthetic geocoding, complete forecast,
+and partial forecast payloads for deterministic provider-layer tests. The live
+smoke test prints only a location label, timezone, day count, and recommendation
+status; it does not write provider responses to disk.
+
 This directory will contain application-owned content manifests. Live weather
 responses and precise device locations must not be committed.
 

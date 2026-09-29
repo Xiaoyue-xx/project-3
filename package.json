@@ -6,6 +6,7 @@
   "scripts": {
     "preview:assets": "node dev/render-asset-preview.mjs",
     "serve": "python3 -m http.server 4173",
+    "smoke:weather": "node dev/smoke-weather.mjs",
     "test": "node --test"
   }
 }
