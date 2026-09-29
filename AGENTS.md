@@ -62,6 +62,6 @@ When the Developer directs the Agent to save the transcript, save the entire cur
 - `assets/`: original production SVG artwork only; `art.svg` is the reusable symbol sprite.
 - `dev/`: development-only asset gallery and preview generation tools.
 - `data/`: application-owned manifests, including the reviewed outfit and reminder content.
-- `tests/`: Node tests and deterministic fixtures for recommendation, data, persistence, and baseline behavior.
+- `tests/`: Node tests and deterministic fixtures for recommendation, data, persistence, accessibility, and baseline behavior.
 - `reference/`: research references and approved screen drawings; never ship these images as production art.
 - `transcripts/`: saved Developer/Agent conversations required by the project workflow.

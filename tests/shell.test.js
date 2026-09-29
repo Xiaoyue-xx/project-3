@@ -24,8 +24,8 @@ test("the baseline includes responsive and reduced-motion rules", () => {
   assert.match(css, /@media \(max-width: 63\.99rem\)/);
   assert.match(css, /@media \(min-width: 64rem\)/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
-  assert.match(css, /grid-template-columns: minmax\(18rem, 1\.05fr\).*minmax\(22rem, 1\.15fr\).*minmax\(18rem, 0\.8fr\)/);
-  assert.match(css, /min-width: 20rem/);
+  assert.match(css, /grid-template-columns: minmax\(0, 1\.05fr\).*minmax\(0, 1\.15fr\).*minmax\(0, 0\.8fr\)/);
+  assert.match(css, /min-width: 320px/);
 });
 
 test("the main screen exposes complete location, date, unit, and source context", () => {
