@@ -72,7 +72,10 @@
             <section class="outfit-card card" aria-labelledby="outfit-heading">
               <div class="card-heading-row">
                 <div><p class="eyebrow">Weather-ready layers</p><h2 id="outfit-heading">Outfit suggestion</h2></div>
-                <button class="text-button" type="button" data-open-outfit>Details</button>
+                <div class="card-actions">
+                  <button class="text-button" type="button" data-open-preferences>Style</button>
+                  <button class="text-button" type="button" data-open-outfit>Details</button>
+                </div>
               </div>
               <p class="recommendation-copy" data-recommendation-text></p>
               <ul class="outfit-items" data-outfit-items></ul>
@@ -106,5 +109,77 @@
         <span class="forecast-condition"></span><span class="forecast-temperatures"></span>
       </button>
     </template>
+
+    <dialog class="app-dialog location-dialog" data-dialog="location" aria-labelledby="location-dialog-title">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">Weather location</p><h2 id="location-dialog-title">Choose a US location</h2></div>
+        <button class="close-button" type="button" data-close-dialog aria-label="Close location panel">×</button>
+      </div>
+      <form class="location-search" data-location-form role="search">
+        <label for="location-query">City or region</label>
+        <div class="search-row">
+          <input id="location-query" name="query" type="search" minlength="2" autocomplete="address-level2" placeholder="Try Boston or Austin" required>
+          <button type="submit">Search</button>
+        </div>
+      </form>
+      <p class="panel-status" data-location-status role="status" aria-live="polite">Search for a city or use your device location.</p>
+      <div class="location-results" data-location-results aria-label="Location search results"></div>
+      <div class="panel-divider"><span>or</span></div>
+      <button class="device-location-button" type="button" data-use-device-location>
+        <svg aria-hidden="true" viewBox="0 0 96 96"><use href="assets/art.svg#status-location"></use></svg>
+        Use my current location
+      </button>
+      <p class="privacy-note">Your browser asks permission only after you choose this option. The app saves only your latest selected location.</p>
+    </dialog>
+
+    <dialog class="app-dialog preferences-dialog" data-dialog="preferences" aria-labelledby="preferences-dialog-title">
+      <form data-preferences-form>
+        <div class="dialog-heading">
+          <div><p class="eyebrow">Make it yours</p><h2 id="preferences-dialog-title">Character and style</h2></div>
+          <button class="close-button" type="button" data-close-dialog aria-label="Close preferences panel">×</button>
+        </div>
+        <fieldset class="choice-fieldset character-choices">
+          <legend>Character presentation</legend>
+          <label class="visual-choice">
+            <input type="radio" name="character" value="male">
+            <svg class="male-preview" aria-hidden="true" viewBox="0 0 260 480">
+              <use href="assets/art.svg#character-male"></use><use href="assets/art.svg#lower-joggers"></use><use href="assets/art.svg#upper-hoodie"></use><use href="assets/art.svg#footwear-trainers"></use>
+            </svg>
+            <span>Male</span>
+          </label>
+          <label class="visual-choice">
+            <input type="radio" name="character" value="female">
+            <svg class="female-preview" aria-hidden="true" viewBox="0 0 260 480">
+              <use href="assets/art.svg#character-female"></use><use href="assets/art.svg#lower-wide-leg"></use><use href="assets/art.svg#upper-cardigan"></use><use href="assets/art.svg#footwear-canvas"></use>
+            </svg>
+            <span>Female</span>
+          </label>
+        </fieldset>
+        <fieldset class="choice-fieldset style-choices">
+          <legend>Outfit style</legend>
+          <label><input type="radio" name="style" value="campus-casual"><span>Campus Casual</span></label>
+          <label><input type="radio" name="style" value="sporty"><span>Sporty</span></label>
+          <label><input type="radio" name="style" value="streetwear"><span>Streetwear</span></label>
+        </fieldset>
+        <button class="primary-action" type="submit">Apply preferences</button>
+      </form>
+    </dialog>
+
+    <dialog class="app-dialog details-dialog" data-dialog="outfit" aria-labelledby="outfit-dialog-title">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">Selected recommendation</p><h2 id="outfit-dialog-title">Outfit details</h2></div>
+        <button class="close-button" type="button" data-close-dialog aria-label="Close outfit details">×</button>
+      </div>
+      <p class="detail-summary" data-outfit-summary></p>
+      <ul class="detail-list" data-outfit-detail-list></ul>
+    </dialog>
+
+    <dialog class="app-dialog details-dialog" data-dialog="carry" aria-labelledby="carry-dialog-title">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">Forecast preparation</p><h2 id="carry-dialog-title">Carry-item details</h2></div>
+        <button class="close-button" type="button" data-close-dialog aria-label="Close carry-item details">×</button>
+      </div>
+      <div class="detail-reminders" data-carry-detail-list></div>
+    </dialog>
   </body>
 </html>

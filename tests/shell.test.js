@@ -35,3 +35,16 @@ test("the main screen exposes complete location, date, unit, and source context"
   assert.match(html, /data-source-badge/);
   assert.match(html, />7-Day</);
 });
+
+test("approved interactions use labeled dialogs without excluded controls", () => {
+  for (const dialog of ["location", "preferences", "outfit", "carry"]) {
+    assert.match(html, new RegExp(`data-dialog="${dialog}"`));
+  }
+  assert.match(html, /data-use-device-location/);
+  assert.match(html, /value="male"/);
+  assert.match(html, /value="female"/);
+  assert.match(html, /value="campus-casual"/);
+  assert.match(html, /value="sporty"/);
+  assert.match(html, /value="streetwear"/);
+  assert.doesNotMatch(html, /favorite locations|notifications/i);
+});

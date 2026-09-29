@@ -1,8 +1,10 @@
 import { renderApp } from "./render.js";
 import { createAppStore } from "./state.js";
+import { createInteractionController } from "./interactions.js";
 
 const store = createAppStore();
 const shell = document.querySelector("[data-app-shell]");
+const interactions = createInteractionController({ store });
 
 function render(state) {
   renderApp(state);
@@ -47,4 +49,7 @@ document.addEventListener("click", (event) => {
 const restoredLocation = store.getState().activeLocation;
 if (restoredLocation) store.refresh();
 
-window.addEventListener("pagehide", () => store.destroy(), { once: true });
+window.addEventListener("pagehide", () => {
+  interactions.destroy();
+  store.destroy();
+}, { once: true });

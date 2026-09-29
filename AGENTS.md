@@ -58,7 +58,7 @@ When the Developer directs the Agent to save the transcript, save the entire cur
 
 - `index.html`: semantic application shell.
 - `styles/`: responsive visual system.
-- `scripts/`: application modules and rendering code; `recommendation.js` owns weather rules, `variation.js` owns stable content selection, `weather-service.js` owns Open-Meteo requests, `persistence.js` owns the restricted local-storage schema, `state.js` owns central application state, and `render.js` maps that state to the main screen.
+- `scripts/`: application modules and rendering code; `recommendation.js` owns weather rules, `variation.js` owns stable content selection, `weather-service.js` owns Open-Meteo requests, `device-location.js` owns permission-aware geolocation, `persistence.js` owns the restricted local-storage schema, `state.js` owns central application state, `render.js` maps that state to the main screen, and `interactions.js` owns dialog and input flows.
 - `assets/`: original production SVG artwork only; `art.svg` is the reusable symbol sprite.
 - `dev/`: development-only asset gallery and preview generation tools.
 - `data/`: application-owned manifests, including the reviewed outfit and reminder content.
