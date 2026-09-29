@@ -48,11 +48,6 @@ function arrayNumber(source, key, index) {
   return finiteNumber(Array.isArray(source?.[key]) ? source[key][index] : null);
 }
 
-function arrayString(source, key, index) {
-  const value = Array.isArray(source?.[key]) ? source[key][index] : null;
-  return typeof value === "string" ? value : null;
-}
-
 function validateCoordinates({ latitude, longitude }) {
   if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90) {
     throw new RangeError("latitude must be between -90 and 90");

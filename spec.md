@@ -76,9 +76,9 @@ Every temperature category must provide at least three complete outfit recipes f
 
 ### R6. Location persistence and privacy
 
-The app may switch among multiple searched locations during a session, but only the latest selected location persists across reloads. It must not store a favorites list, location history, precise device-position history, account, analytics identifier, or weather history. Units, character, and style preferences may persist locally. The information screen must explain local storage and the coordinates sent to Open-Meteo.
+The app may switch among multiple searched locations during a session, but only the latest selected location persists across reloads. Persisted coordinates are rounded to three decimal places to reduce locally stored precision; active-session coordinates may retain provider precision for the current request. It must not store a favorites list, location history, precise device-position history, account, analytics identifier, or weather history. Units, character, and style preferences may persist locally. The information screen must explain local storage and the coordinates sent to Open-Meteo.
 
-**Acceptance check:** Select three locations, reload, and confirm that only the last one is restored. Inspect local storage and confirm it contains one location plus approved preferences only.
+**Acceptance check:** Select three locations, reload, and confirm that only the last one is restored with coordinates rounded to three decimals. Inspect local storage and confirm it contains one location plus approved preferences only.
 
 ### R7. Units
 
@@ -253,6 +253,7 @@ After implementation or testing, record requirement changes and the evidence tha
 
 - **September 28, 2026 — Initial specification draft:** Consolidated the Developer's phone flow into two navigable screens and panels, selected Desktop Main Layout 1, removed multiple saved locations and notifications, limited styles to the approved three, and retained Fahrenheit as the default. The original phone and desktop sketches were saved in `reference/` and linked above.
 - **September 28, 2026 — Asset inventory refinement:** Construction produced 90 reusable SVG symbols: 2 character bases with integrated face/hair details, 25 upper-body layers, 14 lower-body layers, 10 footwear layers, 8 modifier/accessory layers, 10 weather icons, 7 reminder icons, 6 status icons, and 8 decorative symbols. Fog and unknown-state icons increased the weather count from the approximate table, while integrated character details replaced separate face/hair symbols. Recipe, style, category, and presentation coverage did not change.
+- **September 28, 2026 — Persistence precision clarification:** Limited the persisted latest-location coordinates to three decimal places, while allowing the active session to use provider precision. This reduces stored location precision without adding history or changing the approved location flow.
 
 ## Approval
 

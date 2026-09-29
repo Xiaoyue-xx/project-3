@@ -162,3 +162,25 @@ export const PROTECTION_LAYER_IDS = Object.freeze({
   wind: "modifier-wind-layer",
   snowFootwear: "modifier-waterproof-boots",
 });
+
+const OUTFIT_BY_FIT_ID = new Map(ASSEMBLED_OUTFITS.map((outfit) => [outfit.fitId, outfit]));
+
+export function getAssembledOutfit(fitId) {
+  return OUTFIT_BY_FIT_ID.get(fitId) ?? null;
+}
+
+export function composeOutfitLayerIds(assembledOutfit, modifiers = {}) {
+  if (!assembledOutfit || !Array.isArray(assembledOutfit.layerIds)) {
+    throw new TypeError("An assembled outfit is required");
+  }
+
+  const [character, lowerBody, upperBody, baseFootwear] = assembledOutfit.layerIds;
+  const protection = [];
+  if (modifiers.rain) {
+    protection.push(PROTECTION_LAYER_IDS.rain);
+  } else if (modifiers.wind) {
+    protection.push(PROTECTION_LAYER_IDS.wind);
+  }
+  const footwear = modifiers.snow ? PROTECTION_LAYER_IDS.snowFootwear : baseFootwear;
+  return Object.freeze([character, lowerBody, upperBody, ...protection, footwear]);
+}
