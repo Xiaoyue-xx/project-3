@@ -213,6 +213,32 @@ test("loading, slow, and ready request states are published in order", async () 
   assert.equal(store.getState().recommendation.status, "ready");
 });
 
+test("a failed weather request can be retried without reselecting the location", async () => {
+  let attempt = 0;
+  const store = createAppStore({
+    storage: new MemoryStorage(),
+    fetchForecastImpl: async (location) => {
+      attempt += 1;
+      if (attempt === 1) {
+        const error = new Error("offline");
+        error.code = "network";
+        throw error;
+      }
+      return forecastFor(location, "retry");
+    },
+  });
+
+  await store.selectLocation(locations[1]);
+  assert.equal(store.getState().request.status, "error");
+  assert.equal(store.getState().request.errorCode, "network");
+  assert.equal(store.getState().forecast, null);
+
+  await store.refresh();
+  assert.equal(attempt, 2);
+  assert.equal(store.getState().request.status, "ready");
+  assert.equal(store.getState().activeLocation.label, "Austin, Texas");
+});
+
 test("a stale location response cannot replace a newer selection", async () => {
   const pending = [];
   const store = createAppStore({

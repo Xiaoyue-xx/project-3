@@ -30,7 +30,7 @@
         <button type="button" data-unit="fahrenheit" aria-pressed="true">°F</button>
         <button type="button" data-unit="celsius" aria-pressed="false">°C</button>
       </fieldset>
-      <button class="information-button" type="button" data-open-information>
+      <button class="information-button" type="button" data-open-information aria-label="Information">
         <svg aria-hidden="true" viewBox="0 0 96 96"><use href="assets/art.svg#status-information"></use></svg>
         <span>Information</span>
       </button>
@@ -38,14 +38,19 @@
 
     <main id="main-content" class="app-shell" data-app-shell data-view="today">
       <p class="visually-hidden" data-app-status role="status" aria-live="polite"></p>
+      <div data-main-screen>
       <section class="empty-state" data-empty-state aria-labelledby="empty-title">
         <div class="empty-art" aria-hidden="true">
-          <svg viewBox="0 0 96 96"><use href="assets/art.svg#weather-partly-cloudy"></use></svg><span>✦</span>
+          <svg data-empty-icon viewBox="0 0 96 96"><use href="assets/art.svg#weather-partly-cloudy"></use></svg><span>✦</span>
         </div>
-        <p class="eyebrow">Weather outfits for your day</p>
-        <h1 id="empty-title">Ready for the forecast?</h1>
+        <p class="eyebrow" data-empty-eyebrow>Weather outfits for your day</p>
+        <h1 id="empty-title" data-empty-title>Ready for the forecast?</h1>
         <p data-empty-message>Choose a US city to see a seven-day forecast, a complete outfit, and what to bring.</p>
-        <button type="button" data-open-location>Choose a location</button>
+        <div class="loading-skeleton" data-loading-skeleton hidden aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="empty-actions">
+          <button class="primary-action" type="button" data-retry-weather hidden>Retry weather</button>
+          <button type="button" data-open-location>Choose a location</button>
+        </div>
       </section>
 
       <section class="weather-experience" data-weather-experience hidden aria-label="Weather outfit recommendation">
@@ -96,6 +101,73 @@
           </section>
         </div>
         <footer class="data-footer"><span data-data-context></span><span data-fetched-time></span></footer>
+      </section>
+      </div>
+
+      <section class="information-screen" data-information-screen hidden aria-labelledby="information-title">
+        <header class="information-hero">
+          <button class="back-button" type="button" data-back-main>← Back to weather</button>
+          <p class="eyebrow">Information and settings</p>
+          <h1 id="information-title" tabindex="-1">How your forecast becomes an outfit.</h1>
+          <p>Review your preferences, data sources, privacy choices, and the reasoning behind each recommendation.</p>
+        </header>
+
+        <div class="information-grid">
+          <section class="info-card settings-card" aria-labelledby="settings-title">
+            <p class="eyebrow">Personal settings</p>
+            <h2 id="settings-title">Settings</h2>
+            <div class="settings-row">
+              <div><strong>Units</strong><span>Changes display values without changing the outfit rules.</span></div>
+              <fieldset class="unit-switch" aria-label="Information screen temperature units">
+                <legend class="visually-hidden">Temperature units</legend>
+                <button type="button" data-unit="fahrenheit" aria-pressed="true">°F</button>
+                <button type="button" data-unit="celsius" aria-pressed="false">°C</button>
+              </fieldset>
+            </div>
+            <div class="settings-row">
+              <div><strong>Character and style</strong><span data-preference-summary>Female · Campus Casual</span></div>
+              <button type="button" data-open-preferences>Change</button>
+            </div>
+          </section>
+
+          <section class="info-card" aria-labelledby="method-title">
+            <p class="eyebrow">Recommendation method</p>
+            <h2 id="method-title">Coded, consistent guidance</h2>
+            <p>The app uses the typical apparent temperature from 8:00 a.m. to 6:00 p.m. to choose a base outfit, then applies separate rain, snow, wind, UV, heat, temperature-swing, and thunderstorm rules.</p>
+            <p>Suggestions are practical guidance for planning a day outside. They are not medical advice, emergency alerts, or a guarantee of comfort.</p>
+          </section>
+
+          <section class="info-card" aria-labelledby="sources-title">
+            <p class="eyebrow">Data and guidance</p>
+            <h2 id="sources-title">Sources</h2>
+            <ul class="source-list">
+              <li><a href="https://open-meteo.com/en/docs">Open-Meteo Forecast API</a> provides weather and geocoding data under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</li>
+              <li><a href="https://www.weather.gov/safety/cold-during">National Weather Service cold-weather guidance</a> informs layering and weather-resistant clothing.</li>
+              <li><a href="https://www.cdc.gov/climate-health/php/resources/protect-yourself-from-the-dangers-of-extreme-heat.html">CDC extreme-heat guidance</a> informs lightweight clothing and hydration reminders.</li>
+              <li><a href="https://www.epa.gov/sunsafety/uv-index-scale-0">EPA UV Index guidance</a> informs sun-protection reminders.</li>
+            </ul>
+          </section>
+
+          <section class="info-card" aria-labelledby="privacy-title">
+            <p class="eyebrow">Privacy</p>
+            <h2 id="privacy-title">Your latest location stays on this device</h2>
+            <p>The app sends a searched city or device coordinates to Open-Meteo only to retrieve weather. Device location is requested only after you choose “Use my current location.”</p>
+            <p>Local storage contains one latest location with coordinates rounded to three decimal places, plus units, character, and style. There is no account, analytics identifier, favorites list, location history, or stored weather history.</p>
+          </section>
+
+          <section class="info-card" aria-labelledby="accessibility-title">
+            <p class="eyebrow">Accessibility</p>
+            <h2 id="accessibility-title">Designed for flexible access</h2>
+            <p>The interface supports keyboard navigation, visible focus, screen-reader status announcements, text alternatives for meaningful artwork, large touch targets, reduced motion, and responsive text and layouts.</p>
+          </section>
+
+          <section class="info-card creator-card" aria-labelledby="creator-title">
+            <p class="eyebrow">Credits</p>
+            <h2 id="creator-title">Created by xiaoyuex_x</h2>
+            <p>Designed and developed by xiaoyuex_x with AI assistance. Product decisions and final review remain with the creator.</p>
+            <p>All character, clothing, weather, reminder, status, and decorative SVG artwork was created as original artwork for this prototype.</p>
+          </section>
+        </div>
       </section>
     </main>
 

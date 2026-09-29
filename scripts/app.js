@@ -5,6 +5,9 @@ import { createInteractionController } from "./interactions.js";
 const store = createAppStore();
 const shell = document.querySelector("[data-app-shell]");
 const interactions = createInteractionController({ store });
+const mainScreen = document.querySelector("[data-main-screen]");
+const informationScreen = document.querySelector("[data-information-screen]");
+const informationButton = document.querySelector("[data-open-information]");
 
 function render(state) {
   renderApp(state);
@@ -14,6 +17,29 @@ store.subscribe(render);
 render(store.getState());
 
 document.addEventListener("click", (event) => {
+  if (event.target.closest("[data-open-information]")) {
+    document.body.dataset.screen = "information";
+    mainScreen.hidden = true;
+    informationScreen.hidden = false;
+    informationButton.setAttribute("aria-current", "page");
+    document.querySelector("#information-title")?.focus();
+    return;
+  }
+
+  if (event.target.closest("[data-back-main]")) {
+    document.body.dataset.screen = "main";
+    informationScreen.hidden = true;
+    mainScreen.hidden = false;
+    informationButton.removeAttribute("aria-current");
+    informationButton.focus();
+    return;
+  }
+
+  if (event.target.closest("[data-retry-weather]")) {
+    store.refresh();
+    return;
+  }
+
   const viewButton = event.target.closest("[data-view-button]");
   if (viewButton) {
     const view = viewButton.dataset.viewButton;
@@ -48,6 +74,9 @@ document.addEventListener("click", (event) => {
 
 const restoredLocation = store.getState().activeLocation;
 if (restoredLocation) store.refresh();
+
+window.addEventListener("offline", () => render(store.getState()));
+window.addEventListener("online", () => render(store.getState()));
 
 window.addEventListener("pagehide", () => {
   interactions.destroy();

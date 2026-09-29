@@ -48,3 +48,22 @@ test("approved interactions use labeled dialogs without excluded controls", () =
   assert.match(html, /value="streetwear"/);
   assert.doesNotMatch(html, /favorite locations|notifications/i);
 });
+
+test("the information screen includes every required disclosure and source", () => {
+  assert.match(html, /data-information-screen/);
+  assert.match(html, /Created by xiaoyuex_x/);
+  assert.match(html, /with AI assistance/);
+  assert.match(html, /Open-Meteo Forecast API/);
+  assert.match(html, /CC BY 4\.0/);
+  assert.match(html, /National Weather Service/);
+  assert.match(html, /CDC extreme-heat guidance/);
+  assert.match(html, /EPA UV Index guidance/);
+  assert.match(html, /original artwork/);
+  assert.match(html, /There is no account, analytics identifier, favorites list, location history, or stored weather history/);
+});
+
+test("the main screen provides visible loading and retry structures", () => {
+  assert.match(html, /data-loading-skeleton/);
+  assert.match(html, /data-retry-weather/);
+  assert.match(html, /data-empty-title/);
+});

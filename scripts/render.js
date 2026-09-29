@@ -45,6 +45,69 @@ export function buildForecastRowModel(day, units, selectedDate) {
   });
 }
 
+export function buildStatusPresentation(state, { online = true } = {}) {
+  if (state.recommendation?.status === "missing-data") {
+    return Object.freeze({
+      status: "missing-data",
+      eyebrow: "Weather details unavailable",
+      title: "This day needs more data.",
+      message: "Open-Meteo did not provide enough apparent-temperature information to make a reliable outfit recommendation. Try refreshing or choose another location.",
+      iconId: "weather-unknown",
+      busy: false,
+      retry: true,
+      chooseLocation: true,
+    });
+  }
+
+  if (state.request.status === "loading" || state.request.status === "slow") {
+    const slow = state.request.status === "slow";
+    return Object.freeze({
+      status: slow ? "slow" : "loading",
+      eyebrow: slow ? "Slow connection" : "Live weather",
+      title: slow ? "Still connecting…" : "Checking the forecast…",
+      message: slow
+        ? "Open-Meteo is taking longer than usual. Keep this page open or choose a different location."
+        : `Loading fresh weather for ${state.activeLocation?.label ?? "your location"}.`,
+      iconId: slow ? "status-slow" : "status-loading",
+      busy: true,
+      retry: false,
+      chooseLocation: true,
+    });
+  }
+
+  if (state.request.status === "error") {
+    const code = !online ? "offline" : state.request.errorCode;
+    const copy = {
+      offline: ["You appear to be offline.", "Reconnect to the internet, then retry the weather request."],
+      timeout: ["The weather request timed out.", "Open-Meteo did not respond within ten seconds. Retry when your connection is steadier."],
+      network: ["The weather service could not be reached.", "Check your connection and retry, or choose another location."],
+      "invalid-response": ["Weather details arrived incomplete.", "Open-Meteo returned an unexpected response. Retry to request fresh data."],
+      service: ["Open-Meteo is unavailable right now.", "The weather service returned an error. Wait a moment and retry."],
+    }[code] ?? ["Weather could not be loaded.", "Retry the request or choose another location."];
+    return Object.freeze({
+      status: code ?? "error",
+      eyebrow: "Weather unavailable",
+      title: copy[0],
+      message: copy[1],
+      iconId: code === "offline" ? "status-offline" : "status-retry",
+      busy: false,
+      retry: Boolean(state.activeLocation),
+      chooseLocation: true,
+    });
+  }
+
+  return Object.freeze({
+    status: "idle",
+    eyebrow: "Weather outfits for your day",
+    title: "Ready for the forecast?",
+    message: "Choose a US city to see a seven-day forecast, a complete outfit, and what to bring.",
+    iconId: "weather-partly-cloudy",
+    busy: false,
+    retry: false,
+    chooseLocation: true,
+  });
+}
+
 function useSymbol(svg, symbolId) {
   svg.replaceChildren();
   const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
@@ -63,14 +126,19 @@ function renderEmptyState(state) {
   if (!empty || !experience) return;
   empty.hidden = false;
   experience.hidden = true;
-
-  const message = {
-    loading: `Loading weather for ${state.activeLocation?.label ?? "your location"}…`,
-    slow: "The weather service is taking a little longer than usual…",
-    error: "Weather could not be loaded. Your location choice is still available.",
-  }[state.request.status] ?? "Choose a US city to see a seven-day forecast, a complete outfit, and what to bring.";
-  setText("[data-empty-message]", message);
-  setText("[data-app-status]", message);
+  const presentation = buildStatusPresentation(state, {
+    online: globalThis.navigator?.onLine !== false,
+  });
+  empty.dataset.status = presentation.status;
+  empty.setAttribute("aria-busy", String(presentation.busy));
+  setText("[data-empty-eyebrow]", presentation.eyebrow);
+  setText("[data-empty-title]", presentation.title);
+  setText("[data-empty-message]", presentation.message);
+  setText("[data-app-status]", `${presentation.title} ${presentation.message}`);
+  useSymbol(document.querySelector("[data-empty-icon]"), presentation.iconId);
+  document.querySelector("[data-loading-skeleton]").hidden = !presentation.busy;
+  document.querySelector("[data-retry-weather]").hidden = !presentation.retry;
+  empty.querySelector("[data-open-location]").hidden = !presentation.chooseLocation;
 }
 
 function renderDateControls(state) {
@@ -202,6 +270,13 @@ export function renderApp(state) {
   document.querySelectorAll("[data-unit]").forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.unit === state.units));
   });
+  const characterLabel = state.preferences.character === "male" ? "Male" : "Female";
+  const styleLabel = {
+    "campus-casual": "Campus Casual",
+    sporty: "Sporty",
+    streetwear: "Streetwear",
+  }[state.preferences.style];
+  setText("[data-preference-summary]", `${characterLabel} · ${styleLabel}`);
 
   const recommendation = state.recommendation;
   if (!state.forecast || recommendation?.status !== "ready") {

@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   buildForecastRowModel,
+  buildStatusPresentation,
   convertForecastTemperature,
   displayTemperature,
   formatForecastDate,
@@ -51,4 +52,48 @@ test("long unavailable forecast values have explicit fallbacks", () => {
   assert.equal(model.high, "—");
   assert.equal(model.low, "—");
   assert.equal(model.selected, false);
+});
+
+function statusState(request, recommendationStatus = request.status) {
+  return {
+    activeLocation: { label: "Austin, Texas" },
+    request,
+    recommendation: { status: recommendationStatus },
+  };
+}
+
+test("loading and slow requests have distinct announced presentations", () => {
+  const loading = buildStatusPresentation(statusState({ status: "loading", errorCode: null }));
+  const slow = buildStatusPresentation(statusState({ status: "slow", errorCode: null }));
+  assert.equal(loading.status, "loading");
+  assert.equal(loading.busy, true);
+  assert.match(loading.message, /Austin, Texas/);
+  assert.equal(slow.status, "slow");
+  assert.match(slow.title, /Still connecting/);
+  assert.notEqual(slow.iconId, loading.iconId);
+});
+
+test("offline, timeout, provider, and malformed responses have distinct recovery copy", () => {
+  const errors = ["timeout", "network", "service", "invalid-response"].map((errorCode) => (
+    buildStatusPresentation(statusState({ status: "error", errorCode }))
+  ));
+  assert.equal(new Set(errors.map(({ title }) => title)).size, 4);
+  assert.ok(errors.every(({ retry }) => retry));
+
+  const offline = buildStatusPresentation(
+    statusState({ status: "error", errorCode: "network" }),
+    { online: false },
+  );
+  assert.equal(offline.status, "offline");
+  assert.match(offline.title, /offline/);
+});
+
+test("missing selected-day data never invents an outfit", () => {
+  const missing = buildStatusPresentation(
+    statusState({ status: "ready", errorCode: null }, "missing-data"),
+  );
+  assert.equal(missing.status, "missing-data");
+  assert.equal(missing.busy, false);
+  assert.equal(missing.retry, true);
+  assert.match(missing.message, /not provide enough/);
 });
