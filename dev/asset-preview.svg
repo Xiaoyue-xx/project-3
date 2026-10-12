@@ -5,10 +5,11 @@
 
   <g transform="translate(46 135)">
     <rect width="230" height="570" rx="24" fill="#fffdf9" stroke="#241c35" stroke-width="4"/>
-    <svg x="10" y="8" width="210" height="440" viewBox="0 0 260 480" style="--garment-primary:#ff86c8;--garment-secondary:#9fe4ff;--garment-dark:#47516b">
+    <svg x="10" y="8" width="210" height="440" viewBox="0 0 260 360" style="--garment-primary:#ff86c8;--garment-secondary:#9fe4ff;--garment-dark:#47516b">
       <use href="../assets/art.svg#decor-blob"/>
       <use href="../assets/pixel-characters.svg#character-waves"/>
       <use href="../assets/pixel-characters.svg#lower-denim-shorts"/>
+      <use href="../assets/pixel-characters.svg#base-tunic"/>
       <use href="../assets/pixel-characters.svg#upper-tee"/>
       <use href="../assets/pixel-characters.svg#footwear-canvas"/>
       <use href="../assets/pixel-characters.svg#modifier-cap"/>
@@ -20,10 +21,11 @@
 
   <g transform="translate(296 135)">
     <rect width="230" height="570" rx="24" fill="#fffdf9" stroke="#241c35" stroke-width="4"/>
-    <svg x="10" y="8" width="210" height="440" viewBox="0 0 260 480" style="--garment-primary:#86b98b;--garment-secondary:#ffd45a;--garment-dark:#3f4f48">
+    <svg x="10" y="8" width="210" height="440" viewBox="0 0 260 360" style="--garment-primary:#86b98b;--garment-secondary:#ffd45a;--garment-dark:#3f4f48">
       <use href="../assets/art.svg#decor-blob"/>
       <use href="../assets/pixel-characters.svg#character-crop"/>
       <use href="../assets/pixel-characters.svg#lower-joggers"/>
+      <use href="../assets/pixel-characters.svg#base-tunic"/>
       <use href="../assets/pixel-characters.svg#upper-track-jacket"/>
       <use href="../assets/pixel-characters.svg#footwear-trainers"/>
     </svg>
@@ -34,10 +36,11 @@
 
   <g transform="translate(546 135)">
     <rect width="230" height="570" rx="24" fill="#fffdf9" stroke="#241c35" stroke-width="4"/>
-    <svg x="10" y="8" width="210" height="440" viewBox="0 0 260 480" style="--garment-primary:#8d7cf2;--garment-secondary:#ffc6a8;--garment-dark:#382f58">
+    <svg x="10" y="8" width="210" height="440" viewBox="0 0 260 360" style="--garment-primary:#8d7cf2;--garment-secondary:#ffc6a8;--garment-dark:#382f58">
       <use href="../assets/art.svg#decor-blob"/>
       <use href="../assets/pixel-characters.svg#character-waves"/>
       <use href="../assets/pixel-characters.svg#lower-wide-leg"/>
+      <use href="../assets/pixel-characters.svg#base-tunic"/>
       <use href="../assets/pixel-characters.svg#upper-coat"/>
       <use href="../assets/pixel-characters.svg#footwear-high-tops"/>
       <use href="../assets/pixel-characters.svg#modifier-knit-hat"/>
@@ -49,10 +52,11 @@
 
   <g transform="translate(796 135)">
     <rect width="230" height="570" rx="24" fill="#fffdf9" stroke="#241c35" stroke-width="4"/>
-    <svg x="10" y="8" width="210" height="440" viewBox="0 0 260 480" style="--garment-primary:#47516b;--garment-secondary:#9fe4ff;--garment-dark:#241c35">
+    <svg x="10" y="8" width="210" height="440" viewBox="0 0 260 360" style="--garment-primary:#47516b;--garment-secondary:#9fe4ff;--garment-dark:#241c35">
       <use href="../assets/art.svg#decor-blob"/>
       <use href="../assets/pixel-characters.svg#character-crop"/>
       <use href="../assets/pixel-characters.svg#lower-thermal"/>
+      <use href="../assets/pixel-characters.svg#base-tunic"/>
       <use href="../assets/pixel-characters.svg#upper-parka"/>
       <use href="../assets/pixel-characters.svg#footwear-winter"/>
       <use href="../assets/pixel-characters.svg#modifier-gloves"/>

@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>What to Wear? — SVG Asset Gallery</title>
     <link rel="stylesheet" href="asset-gallery.css">
+    <script>
+      window.addEventListener("error", (event) => {
+        const status = document.createElement("p");
+        status.setAttribute("role", "alert");
+        status.textContent = `Gallery error: ${event.message || "module load failed"}`;
+        document.body.prepend(status);
+      });
+    </script>
     <script type="module" src="asset-gallery.js"></script>
   </head>
   <body>
@@ -17,7 +25,7 @@
       <section aria-labelledby="outfit-title">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">90 assembled entries</p>
+            <p class="eyebrow">180 assembled entries</p>
             <h2 id="outfit-title">Character and outfit coverage</h2>
           </div>
           <label>Filter

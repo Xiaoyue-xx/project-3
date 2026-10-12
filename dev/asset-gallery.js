@@ -3,14 +3,19 @@ import {
   ASSET_INVENTORY,
   COLOR_PALETTES,
   getAssetHref,
-} from "../data/assets.js";
+  getChibiLayerTransform,
+} from "../data/assets.js?chibi-2026-10-12-v2";
+import { SKIN_TONES } from "../data/content.js";
+import { renderPixelArt } from "../scripts/pixel-art.js";
 
 const outfitGallery = document.querySelector("[data-outfit-gallery]");
 const iconGallery = document.querySelector("[data-icon-gallery]");
 const filter = document.querySelector("[data-gallery-filter]");
 
 function useElement(symbolId) {
-  return `<use href="${getAssetHref(symbolId, "../")}"></use>`;
+  const use = `<use href="${getAssetHref(symbolId, "../")}"></use>`;
+  const transform = getChibiLayerTransform(symbolId);
+  return transform ? `<g transform="${transform}">${use}</g>` : use;
 }
 
 if (outfitGallery) {
@@ -24,9 +29,7 @@ if (outfitGallery) {
     ].join(";");
     return `
       <article class="outfit-card" data-character="${outfit.character}">
-        <svg viewBox="0 0 260 480" role="img" aria-label="${outfit.accessibleSummary}" style="${style}">
-          ${useElement("decor-blob")}
-          ${outfit.layerIds.map(useElement).join("")}
+        <svg viewBox="0 0 260 360" role="img" aria-label="${outfit.accessibleSummary}" style="${style}" data-outfit-layers="${outfit.layerIds.join(" ")}" data-palette-index="${index % COLOR_PALETTES.length}">
         </svg>
         <div class="card-copy">
           <strong>${outfit.fitId}</strong>
@@ -34,6 +37,16 @@ if (outfitGallery) {
         </div>
       </article>`;
   }).join("");
+
+  const renderTasks = [...outfitGallery.querySelectorAll("[data-outfit-layers]")].map((svg) => {
+    const palette = COLOR_PALETTES[Number(svg.dataset.paletteIndex)];
+    return renderPixelArt(svg, svg.dataset.outfitLayers.split(" "), {
+      tone: SKIN_TONES[2],
+      palette: [palette.primary, palette.secondary, palette.dark, palette.shoe],
+      ariaLabel: svg.getAttribute("aria-label"),
+    });
+  });
+  await Promise.all(renderTasks);
 }
 
 const iconIds = [
