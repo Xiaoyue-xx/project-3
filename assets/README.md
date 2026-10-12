@@ -36,3 +36,15 @@ SVGs in the operating system's temporary directory. The responsive development
 gallery is available at `/dev/asset-gallery.html` while the local server runs.
 
 Reference images remain in `reference/` and are not shipped as application artwork.
+
+## Pixel Y2K theme additions
+
+- `fonts/silkscreen-400.woff2` and `fonts/silkscreen-700.woff2`: Silkscreen by
+  Jason Kottke, SIL Open Font License 1.1, self-hosted so no third-party font
+  request is made.
+- Weather, reminder, and status icons in `art.svg` are now 16×16 pixel grids
+  drawn as crisp 4-unit rects (same ids and 64×64 view boxes as before).
+- Characters use a relaxed, asymmetric body: head scaled to 88%, visible neck,
+  sloped shoulders, waist/hip shaping, bent elbows, larger hands, defined
+  knees, and smaller shoes. A per-layer `pixel-shade` SVG filter adds bevel
+  shading; garments, lowers, footwear, and head accessories were refit to it.
