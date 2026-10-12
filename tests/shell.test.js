@@ -17,7 +17,7 @@ test("the document declares an English responsive application shell", () => {
 
 test("the shell loads local CSS and an ES module", () => {
   assert.match(html, /href="styles\/main\.css"/);
-  assert.match(html, /type="module" src="scripts\/app\.js"/);
+  assert.match(html, /type="module" src="scripts\/app\.js(?:\?[^"]*)?"/);
 });
 
 test("the baseline includes responsive and reduced-motion rules", () => {
