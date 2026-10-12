@@ -222,7 +222,7 @@ h2 { font-size: clamp(1.05rem, 1.7vw, 1.4rem); }
 .information-screen { width: min(72rem, 100%); margin: 0 auto; }
 .information-hero { position: relative; min-height: 18rem; padding: calc(clamp(1.5rem, 5vw, 4rem) + 1rem) clamp(1.5rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem); overflow: hidden; border: 0.125rem solid var(--border); border-radius: 0; background: linear-gradient(135deg, var(--purple-pale), var(--pink-pale) 54%, var(--blue-pale)); box-shadow: var(--bevel), var(--shadow); }
 .information-hero::after { position: absolute; right: 4%; bottom: -2rem; color: var(--pink); content: "✦"; font-size: clamp(6rem, 16vw, 11rem); opacity: 0.45; transform: rotate(12deg); }
-.information-hero h1 { position: relative; z-index: 1; max-width: 17ch; font-size: clamp(2.3rem, 6vw, 5rem); }
+.information-hero h1 { position: relative; z-index: 1; max-width: 17ch; font-size: clamp(1.5rem, 4.2vw, 3.2rem); }
 .information-hero p:not(.eyebrow) { position: relative; z-index: 1; max-width: 43rem; color: var(--ink-soft); line-height: 1.6; }
 .back-button { margin-bottom: 2.5rem; padding: 0.6rem 0.8rem; border-color: var(--border-soft); border-radius: 0; }
 .information-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
