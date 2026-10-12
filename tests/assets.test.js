@@ -97,7 +97,7 @@ test("the browser renderer expands pixel layers locally for Safari color support
   assert.match(pixelRenderer, /style\.textContent = sprite\.querySelector\("style"\)/);
   assert.match(pixelRenderer, /--skin-tone/);
   assert.match(pixelRenderer, /--garment-primary/);
-  assert.match(pixelRenderer, /new URL\(`\.\.\/\$\{PIXEL_CHARACTER_SPRITE_PATH\}`/);
+  assert.match(pixelRenderer, /new URL\(\s*`\.\.\/\$\{PIXEL_CHARACTER_SPRITE_PATH\}\?[^`]+`,/);
   assert.match(pixelRenderer, /group\.setAttribute\("transform", transform\)/);
 });
 
