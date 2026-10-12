@@ -54,6 +54,12 @@ When the Developer directs the Agent to save the transcript, save the entire cur
 - Run `npm run smoke:weather` for the three-city live Open-Meteo smoke test; network access is required.
 - The app is static and uses native ES modules; it has no runtime framework or build step.
 
+## Published repositories
+
+- Full project source: [Xiaoyue-xx/project-3](https://github.com/Xiaoyue-xx/project-3), `main`.
+- Runtime-only GitHub Pages repository: [Xiaoyue-xx/weatherpublic](https://github.com/Xiaoyue-xx/weatherpublic), `main`.
+- Public app: [https://xiaoyue-xx.github.io/weatherpublic/](https://xiaoyue-xx.github.io/weatherpublic/).
+
 ## Structure
 
 - `index.html`: semantic application shell.
