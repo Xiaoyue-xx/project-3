@@ -145,6 +145,18 @@ Post-test comments:
 
 After all sessions, group repeated observations by severity and frequency. Prefer an improvement that resolves a demonstrated barrier in a core task, benefits more than one participant or prevents a serious single-session failure, fits the approved product goal, and can be verified against a specific acceptance check. Do not choose an improvement only because it is visually appealing.
 
+### Session notes received
+
+#### P1
+
+- Device: Phone. Viewport, input method, date, and specific task sequence: Not provided.
+- Success: Yes. The participant understood the overall character and outfit concept.
+- Positive observations: The color palette was visually appealing; the pixel-art style felt creative and gave the site a unique personality.
+- Observed barrier: The character's clothing looked unusual and did not fit the body naturally; clothing design/proportions made the outfit look less natural.
+- Exact comment: “The colors are really nice, and the pixel style is very unique, but the clothes on the character look a little weird.”
+- Interpretation (not an observation): Review outfit/body proportions and silhouette consistency if this concern recurs in other sessions. One participant's comment alone is not enough to select the final revision.
+- P2 and P3: Awaiting notes.
+
 ## Revisions
 
 Record material plan changes and why they were made.
