@@ -1,4 +1,6 @@
-import { SVG_SPRITE_PATH } from "../data/assets.js";
+import { getAssetHref } from "../data/assets.js";
+import { SKIN_TONES, getCharacterLabel } from "../data/content.js";
+import { renderPixelArt } from "./pixel-art.js";
 import { deriveRecommendationCore } from "./recommendation.js";
 
 const DATE_LONG = new Intl.DateTimeFormat("en-US", {
@@ -111,7 +113,7 @@ export function buildStatusPresentation(state, { online = true } = {}) {
 function useSymbol(svg, symbolId) {
   svg.replaceChildren();
   const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
-  use.setAttribute("href", `${SVG_SPRITE_PATH}#${symbolId}`);
+  use.setAttribute("href", getAssetHref(symbolId));
   svg.append(use);
 }
 
@@ -182,18 +184,13 @@ function renderWeatherFacts(recommendation) {
 function renderCharacter(recommendation) {
   const svg = document.querySelector("[data-character-art]");
   if (!svg) return;
-  svg.replaceChildren();
   const { palette, layers, accessibleSummary } = recommendation.outfit;
-  svg.style.setProperty("--garment-primary", palette.primary);
-  svg.style.setProperty("--garment-secondary", palette.secondary);
-  svg.style.setProperty("--garment-dark", palette.dark);
-  svg.style.setProperty("--shoe-color", palette.secondary);
-  svg.setAttribute("aria-label", accessibleSummary);
-  for (const layer of layers) {
-    const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
-    use.setAttribute("href", `${SVG_SPRITE_PATH}#${layer}`);
-    svg.append(use);
-  }
+  const tone = SKIN_TONES.find(({ id }) => id === recommendation.preferences.skinTone) ?? SKIN_TONES[2];
+  renderPixelArt(svg, layers, {
+    tone,
+    palette: [palette.primary, palette.secondary, palette.dark, palette.shoe],
+    ariaLabel: `${tone.label} skin. ${accessibleSummary}`,
+  });
 }
 
 function outfitLabels(recommendation) {
@@ -270,13 +267,14 @@ export function renderApp(state) {
   document.querySelectorAll("[data-unit]").forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.unit === state.units));
   });
-  const characterLabel = state.preferences.character === "male" ? "Male" : "Female";
+  const characterLabel = getCharacterLabel(state.preferences.character);
+  const skinToneLabel = SKIN_TONES.find(({ id }) => id === state.preferences.skinTone)?.label ?? "Medium";
   const styleLabel = {
     "campus-casual": "Campus Casual",
     sporty: "Sporty",
     streetwear: "Streetwear",
   }[state.preferences.style];
-  setText("[data-preference-summary]", `${characterLabel} · ${styleLabel}`);
+  setText("[data-preference-summary]", `${characterLabel} · ${skinToneLabel} · ${styleLabel}`);
 
   const recommendation = state.recommendation;
   if (!state.forecast || recommendation?.status !== "ready") {

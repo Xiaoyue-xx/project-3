@@ -1,4 +1,21 @@
-export const CHARACTER_PRESENTATIONS = Object.freeze(["male", "female"]);
+export const CHARACTER_OPTIONS = Object.freeze([
+  Object.freeze({ id: "crop", label: "Cropped" }),
+  Object.freeze({ id: "curls", label: "Curls" }),
+  Object.freeze({ id: "waves", label: "Long waves" }),
+  Object.freeze({ id: "bob", label: "Soft bob" }),
+]);
+export const CHARACTER_PRESENTATIONS = Object.freeze(CHARACTER_OPTIONS.map(({ id }) => id));
+export const SKIN_TONES = Object.freeze([
+  Object.freeze({ id: "deep", label: "Deep", base: "#6f3f31", shadow: "#512b23", blush: "#a95f55" }),
+  Object.freeze({ id: "dark", label: "Dark", base: "#92573f", shadow: "#6f3d2e", blush: "#c77468" }),
+  Object.freeze({ id: "medium", label: "Medium", base: "#c98262", shadow: "#a85f49", blush: "#df8c82" }),
+  Object.freeze({ id: "tan", label: "Tan", base: "#dfa07b", shadow: "#bd755b", blush: "#ea9188" }),
+  Object.freeze({ id: "light", label: "Light", base: "#f2bd9e", shadow: "#db9477", blush: "#ee9b98" }),
+]);
+
+export function getCharacterLabel(character) {
+  return CHARACTER_OPTIONS.find(({ id }) => id === character)?.label ?? character;
+}
 export const OUTFIT_CATEGORIES = Object.freeze([
   "hot",
   "warm",
@@ -188,7 +205,7 @@ export function getOutfitRecipes(category, style, character) {
     character,
     fitId: `${baseRecipe.id}-${character}`,
     layerKeys: Object.freeze(baseRecipe.items.map((item) => `${character}:${slug(item)}`)),
-    accessibleSummary: `${character} character wearing ${baseRecipe.items.join(", ")}.`,
+    accessibleSummary: `${getCharacterLabel(character)} character wearing ${baseRecipe.items.join(", ")}.`,
   }));
 }
 
@@ -222,6 +239,6 @@ export function applyProtectiveLayers(fittedRecipe, modifiers = {}) {
     protectionLayers: Object.freeze(protectionLayers),
     carryItems: Object.freeze(carryItems),
     footwearOverride,
-    accessibleSummary: `${fittedRecipe.character} character wearing ${completeItems.join(", ")}.`,
+    accessibleSummary: `${getCharacterLabel(fittedRecipe.character)} character wearing ${completeItems.join(", ")}.`,
   });
 }

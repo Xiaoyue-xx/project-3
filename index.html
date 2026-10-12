@@ -125,7 +125,7 @@
               </fieldset>
             </div>
             <div class="settings-row">
-              <div><strong>Character and style</strong><span data-preference-summary>Female · Campus Casual</span></div>
+              <div><strong>Character and style</strong><span data-preference-summary>Long waves · Medium · Campus Casual</span></div>
               <button type="button" data-open-preferences>Change</button>
             </div>
           </section>
@@ -152,7 +152,7 @@
             <p class="eyebrow">Privacy</p>
             <h2 id="privacy-title">Your latest location stays on this device</h2>
             <p>The app sends a searched city or device coordinates to Open-Meteo only to retrieve weather. Device location is requested only after you choose “Use my current location.”</p>
-            <p>Local storage contains one latest location with coordinates rounded to three decimal places, plus units, character, and style. There is no account, analytics identifier, favorites list, location history, or stored weather history.</p>
+            <p>Local storage contains one latest location with coordinates rounded to three decimal places, plus units, character, skin tone, and style. There is no account, analytics identifier, favorites list, location history, or stored weather history.</p>
           </section>
 
           <section class="info-card" aria-labelledby="accessibility-title">
@@ -210,29 +210,36 @@
           <div><p class="eyebrow">Make it yours</p><h2 id="preferences-dialog-title">Character and style</h2></div>
           <button class="close-button" type="button" data-close-dialog aria-label="Close preferences panel">×</button>
         </div>
-        <fieldset class="choice-fieldset character-choices">
-          <legend>Character presentation</legend>
-          <label class="visual-choice">
-            <input type="radio" name="character" value="male">
-            <svg class="male-preview" aria-hidden="true" viewBox="0 0 260 480">
-              <use href="assets/art.svg#character-male"></use><use href="assets/art.svg#lower-joggers"></use><use href="assets/art.svg#upper-hoodie"></use><use href="assets/art.svg#footwear-trainers"></use>
-            </svg>
-            <span>Male</span>
-          </label>
-          <label class="visual-choice">
-            <input type="radio" name="character" value="female">
-            <svg class="female-preview" aria-hidden="true" viewBox="0 0 260 480">
-              <use href="assets/art.svg#character-female"></use><use href="assets/art.svg#lower-wide-leg"></use><use href="assets/art.svg#upper-cardigan"></use><use href="assets/art.svg#footwear-canvas"></use>
-            </svg>
-            <span>Female</span>
-          </label>
-        </fieldset>
-        <fieldset class="choice-fieldset style-choices">
-          <legend>Outfit style</legend>
-          <label><input type="radio" name="style" value="campus-casual"><span>Campus Casual</span></label>
-          <label><input type="radio" name="style" value="sporty"><span>Sporty</span></label>
-          <label><input type="radio" name="style" value="streetwear"><span>Streetwear</span></label>
-        </fieldset>
+        <div class="preference-editor">
+          <figure class="preference-preview-stage">
+            <span class="preview-badge">Live preview</span>
+            <svg data-preference-preview viewBox="0 0 260 480" role="img" aria-label="Long waves character in a campus casual outfit"></svg>
+            <figcaption data-preference-preview-label>Long waves · Medium · Campus Casual</figcaption>
+          </figure>
+          <div class="preference-controls">
+            <fieldset class="choice-fieldset character-choices">
+              <legend>Choose a character</legend>
+              <label class="visual-choice"><input type="radio" name="character" value="crop"><svg data-character-thumbnail="crop" aria-hidden="true" viewBox="0 0 260 480"></svg><span>Cropped</span></label>
+              <label class="visual-choice"><input type="radio" name="character" value="curls"><svg data-character-thumbnail="curls" aria-hidden="true" viewBox="0 0 260 480"></svg><span>Curls</span></label>
+              <label class="visual-choice"><input type="radio" name="character" value="waves"><svg data-character-thumbnail="waves" aria-hidden="true" viewBox="0 0 260 480"></svg><span>Long waves</span></label>
+              <label class="visual-choice"><input type="radio" name="character" value="bob"><svg data-character-thumbnail="bob" aria-hidden="true" viewBox="0 0 260 480"></svg><span>Soft bob</span></label>
+            </fieldset>
+            <fieldset class="choice-fieldset skin-tone-choices">
+              <legend>Skin tone</legend>
+              <label><input type="radio" name="skinTone" value="deep"><span class="tone-deep"><span class="visually-hidden">Deep</span></span></label>
+              <label><input type="radio" name="skinTone" value="dark"><span class="tone-dark"><span class="visually-hidden">Dark</span></span></label>
+              <label><input type="radio" name="skinTone" value="medium"><span class="tone-medium"><span class="visually-hidden">Medium</span></span></label>
+              <label><input type="radio" name="skinTone" value="tan"><span class="tone-tan"><span class="visually-hidden">Tan</span></span></label>
+              <label><input type="radio" name="skinTone" value="light"><span class="tone-light"><span class="visually-hidden">Light</span></span></label>
+            </fieldset>
+            <fieldset class="choice-fieldset style-choices">
+              <legend>Outfit style</legend>
+              <label><input type="radio" name="style" value="campus-casual"><span><strong>Campus</strong><small>Soft layers</small></span></label>
+              <label><input type="radio" name="style" value="sporty"><span><strong>Sporty</strong><small>Active set</small></span></label>
+              <label><input type="radio" name="style" value="streetwear"><span><strong>Street</strong><small>Bold shapes</small></span></label>
+            </fieldset>
+          </div>
+        </div>
         <button class="primary-action" type="submit">Apply preferences</button>
       </form>
     </dialog>

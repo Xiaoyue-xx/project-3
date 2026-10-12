@@ -1,5 +1,7 @@
-import { SVG_SPRITE_PATH } from "../data/assets.js";
+import { getAssetHref } from "../data/assets.js";
+import { CHARACTER_OPTIONS, SKIN_TONES } from "../data/content.js";
 import { requestDeviceLocation } from "./device-location.js";
+import { renderPixelArt } from "./pixel-art.js";
 import { searchUsLocations } from "./weather-service.js";
 
 function setStatus(root, message) {
@@ -20,10 +22,28 @@ function appendIcon(container, iconId) {
   svg.setAttribute("viewBox", "0 0 96 96");
   svg.setAttribute("aria-hidden", "true");
   const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
-  use.setAttribute("href", `${SVG_SPRITE_PATH}#${iconId}`);
+  use.setAttribute("href", getAssetHref(iconId));
   svg.append(use);
   container.append(svg);
 }
+
+const STYLE_PREVIEWS = Object.freeze({
+  "campus-casual": Object.freeze({
+    label: "Campus Casual",
+    layers: Object.freeze(["lower-wide-leg", "upper-cardigan", "footwear-canvas"]),
+    palette: Object.freeze(["#b56b9b", "#9bc7df", "#3f425f", "#fff7e8"]),
+  }),
+  sporty: Object.freeze({
+    label: "Sporty",
+    layers: Object.freeze(["lower-joggers", "upper-track-jacket", "footwear-trainers"]),
+    palette: Object.freeze(["#407d78", "#f1c75b", "#293d4a", "#f8f4e8"]),
+  }),
+  streetwear: Object.freeze({
+    label: "Streetwear",
+    layers: Object.freeze(["lower-parachute", "upper-bomber", "footwear-high-tops"]),
+    palette: Object.freeze(["#6b5bd2", "#e68f6d", "#302d49", "#f4eadb"]),
+  }),
+});
 
 export function createInteractionController({
   store,
@@ -41,11 +61,43 @@ export function createInteractionController({
   }
 
   function preparePreferences() {
-    const { character, style } = store.getState().preferences;
+    const { character, skinTone, style } = store.getState().preferences;
     const characterInput = root.querySelector(`[name="character"][value="${character}"]`);
+    const skinToneInput = root.querySelector(`[name="skinTone"][value="${skinTone}"]`);
     const styleInput = root.querySelector(`[name="style"][value="${style}"]`);
     if (characterInput) characterInput.checked = true;
+    if (skinToneInput) skinToneInput.checked = true;
     if (styleInput) styleInput.checked = true;
+    updatePreferencePreview(root.querySelector("[data-preferences-form]"));
+  }
+
+  function updatePreferencePreview(form) {
+    if (!form) return;
+    const formData = new FormData(form);
+    const character = formData.get("character")?.toString();
+    const skinTone = formData.get("skinTone")?.toString();
+    const style = formData.get("style")?.toString();
+    const characterOption = CHARACTER_OPTIONS.find(({ id }) => id === character);
+    const tone = SKIN_TONES.find(({ id }) => id === skinTone);
+    const previewStyle = STYLE_PREVIEWS[style];
+    if (!characterOption || !tone || !previewStyle) return;
+
+    const preview = form.querySelector("[data-preference-preview]");
+    const ariaLabel = `${characterOption.label} character with ${tone.label.toLowerCase()} skin in a ${previewStyle.label.toLowerCase()} outfit`;
+    renderPixelArt(preview, [`character-${character}`, ...previewStyle.layers], {
+      tone,
+      palette: previewStyle.palette,
+      ariaLabel,
+    });
+    form.querySelector("[data-preference-preview-label]").textContent = `${characterOption.label} · ${tone.label} · ${previewStyle.label}`;
+    form.querySelectorAll("[data-character-thumbnail]").forEach((thumbnail) => {
+      renderPixelArt(thumbnail, [
+        `character-${thumbnail.dataset.characterThumbnail}`,
+        "lower-jeans",
+        "upper-tee",
+        "footwear-canvas",
+      ], { tone, palette: STYLE_PREVIEWS["campus-casual"].palette });
+    });
   }
 
   function prepareOutfitDetails() {
@@ -199,9 +251,16 @@ export function createInteractionController({
       const formData = new FormData(event.target);
       store.setPreferences({
         character: formData.get("character"),
+        skinTone: formData.get("skinTone"),
         style: formData.get("style"),
       });
       closeDialog(event.target.closest("dialog"));
+    }
+  }
+
+  function handleChange(event) {
+    if (event.target.matches("[data-preferences-form] input")) {
+      updatePreferencePreview(event.target.form);
     }
   }
 
@@ -217,6 +276,7 @@ export function createInteractionController({
 
   root.addEventListener("click", handleClick);
   root.addEventListener("submit", handleSubmit);
+  root.addEventListener("change", handleChange);
   root.addEventListener("close", handleClose, true);
   root.addEventListener("pointerdown", handleBackdrop);
 
@@ -226,6 +286,7 @@ export function createInteractionController({
       searchController?.abort("controller-destroyed");
       root.removeEventListener("click", handleClick);
       root.removeEventListener("submit", handleSubmit);
+      root.removeEventListener("change", handleChange);
       root.removeEventListener("close", handleClose, true);
       root.removeEventListener("pointerdown", handleBackdrop);
     },

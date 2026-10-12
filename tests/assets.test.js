@@ -6,15 +6,19 @@ import {
   ASSEMBLED_OUTFITS,
   ASSET_INVENTORY,
   COLOR_PALETTES,
+  PIXEL_CHARACTER_ASSET_IDS,
   PROTECTION_LAYER_IDS,
+  getAssetHref,
 } from "../data/assets.js";
 import {
   CHARACTER_PRESENTATIONS,
   OUTFIT_CATEGORIES,
   OUTFIT_STYLES,
+  SKIN_TONES,
 } from "../data/content.js";
 
 const sprite = await readFile(new URL("../assets/art.svg", import.meta.url), "utf8");
+const pixelSprite = await readFile(new URL("../assets/pixel-characters.svg", import.meta.url), "utf8");
 const galleryHtml = await readFile(new URL("../dev/asset-gallery.html", import.meta.url), "utf8");
 const galleryCss = await readFile(new URL("../dev/asset-gallery.css", import.meta.url), "utf8");
 const galleryJs = await readFile(new URL("../dev/asset-gallery.js", import.meta.url), "utf8");
@@ -23,10 +27,14 @@ const previewRenderer = await readFile(
   new URL("../dev/render-asset-preview.mjs", import.meta.url),
   "utf8",
 );
+const pixelRenderer = await readFile(new URL("../scripts/pixel-art.js", import.meta.url), "utf8");
 
 const symbolMatches = [...sprite.matchAll(/<symbol id="([^"]+)" viewBox="([^"]+)">/g)];
 const symbolIds = symbolMatches.map((match) => match[1]);
 const symbolIdSet = new Set(symbolIds);
+const pixelSymbolMatches = [...pixelSprite.matchAll(/<symbol id="([^"]+)" viewBox="([^"]+)">/g)];
+const pixelSymbolIds = pixelSymbolMatches.map((match) => match[1]);
+const pixelSymbolIdSet = new Set(pixelSymbolIds);
 
 test("the SVG sprite is an original symbol library with unique IDs and view boxes", () => {
   assert.match(sprite, /^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg">/);
@@ -38,17 +46,44 @@ test("the SVG sprite is an original symbol library with unique IDs and view boxe
 
 test("every inventoried and internally referenced symbol exists", () => {
   const inventoryIds = Object.values(ASSET_INVENTORY).flat();
-  assert.equal(inventoryIds.length, 90);
+  assert.equal(inventoryIds.length, 92);
   assert.equal(new Set(inventoryIds).size, inventoryIds.length);
-  for (const id of inventoryIds) assert.ok(symbolIdSet.has(id), id);
+  for (const id of inventoryIds) {
+    assert.ok(symbolIdSet.has(id) || pixelSymbolIdSet.has(id), id);
+  }
 
   const internalReferences = [...sprite.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
   for (const id of internalReferences) assert.ok(symbolIdSet.has(id), `internal use: ${id}`);
 });
 
-test("the manifest assembles all 90 fitted outfits in a safe z-order", () => {
-  assert.equal(ASSEMBLED_OUTFITS.length, 90);
-  assert.equal(new Set(ASSEMBLED_OUTFITS.map(({ fitId }) => fitId)).size, 90);
+test("the character system uses a complete hard-edged pixel SVG sprite", () => {
+  assert.equal(pixelSymbolIds.length, 61);
+  assert.equal(pixelSymbolIdSet.size, 61);
+  assert.deepEqual(new Set(PIXEL_CHARACTER_ASSET_IDS), pixelSymbolIdSet);
+  assert.ok(pixelSymbolMatches.every(([, , viewBox]) => viewBox === "0 0 260 480"));
+  assert.match(pixelSprite, /shape-rendering: crispEdges/);
+  assert.match(pixelSprite, /stroke-linecap: butt/);
+  assert.match(pixelSprite, /stroke-linejoin: miter/);
+  const pathData = [...pixelSprite.matchAll(/\sd="([^"]+)"/g)].map((match) => match[1]);
+  assert.ok(pathData.every((value) => !/[AaCcQqSsTt]/.test(value)));
+  assert.doesNotMatch(pixelSprite, /<image|data:image|(?:href|src)="https?:\/\//);
+  for (const id of PIXEL_CHARACTER_ASSET_IDS) {
+    assert.equal(getAssetHref(id), `assets/pixel-characters.svg#${id}`);
+  }
+  assert.equal(getAssetHref("weather-clear"), "assets/art.svg#weather-clear");
+});
+
+test("the browser renderer expands pixel layers locally for Safari color support", () => {
+  assert.match(pixelRenderer, /new DOMParser\(\)/);
+  assert.match(pixelRenderer, /copyExpandedNode/);
+  assert.match(pixelRenderer, /style\.textContent = sprite\.querySelector\("style"\)/);
+  assert.match(pixelRenderer, /--skin-tone/);
+  assert.match(pixelRenderer, /--garment-primary/);
+});
+
+test("the manifest assembles all 180 fitted outfits in a safe z-order", () => {
+  assert.equal(ASSEMBLED_OUTFITS.length, 180);
+  assert.equal(new Set(ASSEMBLED_OUTFITS.map(({ fitId }) => fitId)).size, 180);
 
   for (const outfit of ASSEMBLED_OUTFITS) {
     assert.equal(outfit.layerIds.length, 4);
@@ -56,7 +91,7 @@ test("the manifest assembles all 90 fitted outfits in a safe z-order", () => {
     assert.match(outfit.layerIds[1], /^lower-/);
     assert.match(outfit.layerIds[2], /^upper-/);
     assert.match(outfit.layerIds[3], /^footwear-/);
-    assert.ok(outfit.layerIds.every((id) => symbolIdSet.has(id)), outfit.fitId);
+    assert.ok(outfit.layerIds.every((id) => pixelSymbolIdSet.has(id)), outfit.fitId);
     assert.match(outfit.accessibleSummary, /character wearing .+\.$/);
   }
 
@@ -81,6 +116,10 @@ test("weather protection and all three color palettes reference usable assets", 
   assert.ok(COLOR_PALETTES.every((palette) => (
     Object.values(palette).every((color) => /^#[0-9a-f]{6}$/i.test(color))
   )));
+  assert.equal(SKIN_TONES.length, 5);
+  assert.ok(SKIN_TONES.every(({ base, shadow, blush }) => (
+    [base, shadow, blush].every((color) => /^#[0-9a-f]{6}$/i.test(color))
+  )));
 });
 
 test("the development gallery exposes labels, responsive layouts, and all asset groups", () => {
@@ -95,8 +134,8 @@ test("the development gallery exposes labels, responsive layouts, and all asset 
   assert.match(galleryCss, /repeat\(auto-fit, minmax\(/);
   assert.match(galleryCss, /@media \(max-width: 36rem\)/);
   assert.match(galleryCss, /@media \(max-width: 21rem\)/);
-  assert.match(previewSvg, /character-male/);
-  assert.match(previewSvg, /character-female/);
+  assert.match(previewSvg, /character-crop/);
+  assert.match(previewSvg, /character-waves/);
   assert.match(previewSvg, /weather-thunderstorm/);
   assert.match(previewRenderer, /replaceAll\("\.\.\/assets\/art\.svg#", "#"\)/);
   assert.match(previewRenderer, /ASSEMBLED_OUTFITS\.map/);

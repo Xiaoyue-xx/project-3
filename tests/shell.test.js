@@ -41,8 +41,12 @@ test("approved interactions use labeled dialogs without excluded controls", () =
     assert.match(html, new RegExp(`data-dialog="${dialog}"`));
   }
   assert.match(html, /data-use-device-location/);
-  assert.match(html, /value="male"/);
-  assert.match(html, /value="female"/);
+  for (const character of ["crop", "curls", "waves", "bob"]) {
+    assert.match(html, new RegExp(`value="${character}"`));
+  }
+  for (const tone of ["deep", "dark", "medium", "tan", "light"]) {
+    assert.match(html, new RegExp(`name="skinTone" value="${tone}"`));
+  }
   assert.match(html, /value="campus-casual"/);
   assert.match(html, /value="sporty"/);
   assert.match(html, /value="streetwear"/);

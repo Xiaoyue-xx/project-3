@@ -1,5 +1,5 @@
 import { COLOR_PALETTES, composeOutfitLayerIds, getAssembledOutfit } from "../data/assets.js";
-import { CHARACTER_PRESENTATIONS, OUTFIT_STYLES } from "../data/content.js";
+import { CHARACTER_PRESENTATIONS, OUTFIT_STYLES, SKIN_TONES } from "../data/content.js";
 import { deriveRecommendationCore } from "./recommendation.js";
 import {
   UNIT_SYSTEMS,
@@ -181,6 +181,7 @@ export function createAppStore({
     units: persisted.units,
     preferences: Object.freeze({
       character: persisted.character,
+      skinTone: persisted.skinTone,
       style: persisted.style,
     }),
     request: Object.freeze({ status: "idle", errorCode: null }),
@@ -256,12 +257,16 @@ export function createAppStore({
 
   function setPreferences(nextPreferences) {
     const character = nextPreferences.character ?? state.preferences.character;
+    const skinTone = nextPreferences.skinTone ?? state.preferences.skinTone;
     const style = nextPreferences.style ?? state.preferences.style;
     if (!CHARACTER_PRESENTATIONS.includes(character)) {
       throw new RangeError(`Unknown character presentation: ${character}`);
     }
+    if (!SKIN_TONES.some(({ id }) => id === skinTone)) {
+      throw new RangeError(`Unknown skin tone: ${skinTone}`);
+    }
     if (!OUTFIT_STYLES.includes(style)) throw new RangeError(`Unknown style: ${style}`);
-    publish({ preferences: Object.freeze({ character, style }) }, { persist: true });
+    publish({ preferences: Object.freeze({ character, skinTone, style }) }, { persist: true });
   }
 
   return Object.freeze({

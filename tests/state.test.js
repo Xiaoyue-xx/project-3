@@ -75,7 +75,7 @@ test("the store starts with approved defaults and one serializable recommendatio
   const store = createAppStore({ storage: new MemoryStorage() });
   const state = store.getState();
   assert.equal(state.units, "fahrenheit");
-  assert.deepEqual(state.preferences, { character: "female", style: "campus-casual" });
+  assert.deepEqual(state.preferences, { character: "waves", skinTone: "medium", style: "campus-casual" });
   assert.equal(state.recommendation.status, "idle");
   assert.doesNotThrow(() => JSON.stringify(state));
 });
@@ -97,7 +97,7 @@ test("three sequential locations persist only the latest approved fields", async
 
   const persisted = JSON.parse(storage.getItem(STORAGE_KEY));
   assert.deepEqual(Object.keys(persisted).sort(), [
-    "character", "latestLocation", "style", "units", "version",
+    "character", "latestLocation", "skinTone", "style", "units", "version",
   ]);
   assert.deepEqual(Object.keys(persisted.latestLocation).sort(), [
     "admin1", "countryCode", "id", "label", "latitude", "longitude", "name", "timezone",
@@ -120,7 +120,7 @@ test("a new store restores the latest location and preferences without an automa
   });
   await firstStore.selectLocation(locations[1]);
   firstStore.setUnits("celsius");
-  firstStore.setPreferences({ character: "male", style: "streetwear" });
+  firstStore.setPreferences({ character: "crop", skinTone: "deep", style: "streetwear" });
 
   const restoredStore = createAppStore({
     storage,
@@ -134,7 +134,7 @@ test("a new store restores the latest location and preferences without an automa
   assert.equal(restored.activeLocation.label, "Austin, Texas");
   assert.equal(restored.activeLocation.latitude, 30.267);
   assert.equal(restored.units, "celsius");
-  assert.deepEqual(restored.preferences, { character: "male", style: "streetwear" });
+  assert.deepEqual(restored.preferences, { character: "crop", skinTone: "deep", style: "streetwear" });
   assert.equal(restored.request.status, "idle");
 });
 
@@ -262,7 +262,8 @@ test("corrupt or unavailable storage falls back safely", () => {
   assert.deepEqual(loadPersistedSettings(corrupt), {
     latestLocation: null,
     units: "fahrenheit",
-    character: "female",
+    character: "waves",
+    skinTone: "medium",
     style: "campus-casual",
   });
 
@@ -284,6 +285,7 @@ test("invalid dates, units, and preferences are rejected", async () => {
   assert.throws(() => store.selectDate("2030-01-01"), RangeError);
   assert.throws(() => store.setUnits("kelvin"), RangeError);
   assert.throws(() => store.setPreferences({ character: "robot" }), RangeError);
+  assert.throws(() => store.setPreferences({ skinTone: "green" }), RangeError);
   assert.throws(() => store.setPreferences({ style: "formal" }), RangeError);
   await assert.rejects(store.selectLocation({ name: "Invalid" }), TypeError);
 });

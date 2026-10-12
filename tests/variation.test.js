@@ -21,7 +21,7 @@ const selectionInput = {
   latitude: 40.7128,
   longitude: -74.006,
   date: "2026-09-28",
-  character: "female",
+  character: "waves",
   style: "campus-casual",
   category: "comfortable",
   modifiers: {},
@@ -38,7 +38,7 @@ test("the manifest contains exactly 45 reviewed semantic recipes", () => {
   assert.ok(recipes.every(({ items }) => items.length === 3));
 });
 
-test("all 90 character/category/style slots have three equivalent fitted recipes", () => {
+test("all 180 character/category/style slots have three equivalent fitted recipes", () => {
   const slots = [];
   for (const character of CHARACTER_PRESENTATIONS) {
     for (const category of OUTFIT_CATEGORIES) {
@@ -52,14 +52,15 @@ test("all 90 character/category/style slots have three equivalent fitted recipes
     }
   }
 
-  assert.equal(slots.length, 30);
-  assert.equal(slots.reduce((total, slot) => total + slot.recipes.length, 0), 90);
+  assert.equal(slots.length, 60);
+  assert.equal(slots.reduce((total, slot) => total + slot.recipes.length, 0), 180);
 
   for (const category of OUTFIT_CATEGORIES) {
     for (const style of OUTFIT_STYLES) {
-      const maleItems = getOutfitRecipes(category, style, "male").map(({ items }) => items);
-      const femaleItems = getOutfitRecipes(category, style, "female").map(({ items }) => items);
-      assert.deepEqual(maleItems, femaleItems);
+      const referenceItems = getOutfitRecipes(category, style, CHARACTER_PRESENTATIONS[0]).map(({ items }) => items);
+      for (const character of CHARACTER_PRESENTATIONS.slice(1)) {
+        assert.deepEqual(getOutfitRecipes(category, style, character).map(({ items }) => items), referenceItems);
+      }
     }
   }
 });
@@ -76,23 +77,23 @@ test("every reminder type has three English variants and its own icon", () => {
 });
 
 test("protective rules add rain and wind layers and replace footwear for snow", () => {
-  const base = getOutfitRecipes("warm", "streetwear", "male")[0];
+  const base = getOutfitRecipes("warm", "streetwear", "crop")[0];
   const protectedOutfit = applyProtectiveLayers(base, { rain: true, snow: true, wind: true });
 
   assert.deepEqual(protectedOutfit.protectionLayers, ["wind-resistant rain shell"]);
   assert.deepEqual(protectedOutfit.carryItems, ["umbrella"]);
   assert.equal(protectedOutfit.items.at(-1), "waterproof winter boots");
-  assert.equal(protectedOutfit.footwearOverride, "male:waterproof-winter-boots");
+  assert.equal(protectedOutfit.footwearOverride, "crop:waterproof-winter-boots");
   assert.match(protectedOutfit.accessibleSummary, /waterproof winter boots/);
   assert.match(protectedOutfit.accessibleSummary, /wind-resistant rain shell/);
 });
 
 test("seed normalization rounds coordinates and preserves the approved dimensions", () => {
   assert.equal(createVariationSeed(selectionInput), (
-    "40.713|-74.006|2026-09-28|female|campus-casual"
+    "40.713|-74.006|2026-09-28|waves|campus-casual"
   ));
   assert.equal(createVariationSeed({ ...selectionInput, latitude: -0 }), (
-    "0.000|-74.006|2026-09-28|female|campus-casual"
+    "0.000|-74.006|2026-09-28|waves|campus-casual"
   ));
 });
 

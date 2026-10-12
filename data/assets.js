@@ -6,15 +6,18 @@ import {
 } from "./content.js";
 
 export const SVG_SPRITE_PATH = "assets/art.svg";
+export const PIXEL_CHARACTER_SPRITE_PATH = "assets/pixel-characters.svg";
 
 export const COLOR_PALETTES = Object.freeze([
-  Object.freeze({ primary: "#ff86c8", secondary: "#9fe4ff", dark: "#47516b" }),
-  Object.freeze({ primary: "#86b98b", secondary: "#ffd45a", dark: "#3f4f48" }),
-  Object.freeze({ primary: "#8d7cf2", secondary: "#ffc6a8", dark: "#382f58" }),
+  Object.freeze({ primary: "#ed75ad", secondary: "#82b9df", dark: "#414b68", shoe: "#fff4dc" }),
+  Object.freeze({ primary: "#7cab84", secondary: "#e7c568", dark: "#344b40", shoe: "#f4ead4" }),
+  Object.freeze({ primary: "#8172d8", secondary: "#e9aa8d", dark: "#392f59", shoe: "#f7eee2" }),
 ]);
 
 export const ASSET_INVENTORY = Object.freeze({
-  characters: Object.freeze(["character-male", "character-female"]),
+  characters: Object.freeze([
+    "character-crop", "character-curls", "character-waves", "character-bob",
+  ]),
   upperBody: Object.freeze([
     "upper-tee", "upper-tank", "upper-polo", "upper-shirt", "upper-long-sleeve",
     "upper-sweatshirt", "upper-cardigan", "upper-track-jacket", "upper-hoodie",
@@ -58,6 +61,23 @@ export const ASSET_INVENTORY = Object.freeze({
     "decor-flower", "decor-skyline", "decor-sticker",
   ]),
 });
+
+export const PIXEL_CHARACTER_ASSET_IDS = Object.freeze([
+  ...ASSET_INVENTORY.characters,
+  ...ASSET_INVENTORY.upperBody,
+  ...ASSET_INVENTORY.lowerBody,
+  ...ASSET_INVENTORY.footwear,
+  ...ASSET_INVENTORY.modifiers,
+]);
+
+const PIXEL_CHARACTER_ASSET_ID_SET = new Set(PIXEL_CHARACTER_ASSET_IDS);
+
+export function getAssetHref(symbolId, prefix = "") {
+  const path = PIXEL_CHARACTER_ASSET_ID_SET.has(symbolId)
+    ? PIXEL_CHARACTER_SPRITE_PATH
+    : SVG_SPRITE_PATH;
+  return `${prefix}${path}#${symbolId}`;
+}
 
 const UPPER_RULES = [
   [/shearling/, "upper-shearling"],

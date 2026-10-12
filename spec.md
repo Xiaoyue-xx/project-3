@@ -64,19 +64,19 @@ Each selected location and date produces one recommendation state. That state mu
 
 ### R4. Character and style preferences
 
-The User can choose a male or female character presentation and one of three styles: Campus Casual, Sporty, or Streetwear. Both character presentations receive equivalent category coverage, variation counts, reminders, and controls. Style changes clothing shape and color but never weakens weather-protection rules.
+The User can choose one of four hairstyle-led character looks, one of three styles (Campus Casual, Sporty, or Streetwear), and one of five skin tones. Character and skin tone are independent. Skin tone is presented as five visual swatch buttons without visible text; each swatch still has an accessible English name and selected state. Skin-tone labels describe visual tone only and do not assign race or ethnicity. Character, style, and skin-tone changes update one large character outfit preview immediately inside the open preferences dialog, while Apply preferences remains the explicit save action. All character looks and skin tones receive equivalent category coverage, variation counts, reminders, and controls. Style changes clothing shape and coordinated palette but never weakens weather-protection rules. Every look and wearable layer uses one consistent, game-inspired pixel-art construction with bold hard-edged outlines and expressive hair and facial details. The code-native SVG artwork must remain crisp at phone and laptop sizes and at 200% zoom; clothing must align to the shared body anchors without gaps, unintended overlap, or mismatched silhouettes.
 
-**Acceptance check:** For both character presentations and all three styles, trigger all five temperature categories and confirm a complete, visually aligned outfit with the correct protection layers.
+**Acceptance check:** In the preferences dialog, select each of the three styles and confirm the large preview immediately shows a recognizably different outfit before Apply. Select each of the four character looks and five unlabeled skin-tone swatches and confirm the preview updates, each control exposes an accessible name and selected state, and the chosen values persist only after Apply. For all four looks and three styles, trigger all five temperature categories and confirm a complete outfit with the correct protection layers at every skin tone. Inspect all 180 assembled outfits in the development contact sheet, then render representative characters at 320×568, 390×844, and 1440×900 plus 200% zoom.
 
 ### R5. Stable independent variation
 
-Every temperature category must provide at least three complete outfit recipes for every character/style combination. Every reminder type must provide at least three wording variations. Outfit selection and each reminder's wording selection use separate deterministic pseudo-random values. Returning to the same location, date, character, and style must reproduce the same variants after navigation and page reload without storing a history of viewed dates.
+Every temperature category must provide at least three complete outfit recipes for every character/style combination. Every reminder type must provide at least three wording variations. Outfit selection and each reminder's wording selection use separate deterministic pseudo-random values. Returning to the same location, date, character, and style must reproduce the same variants after navigation and page reload without storing a history of viewed dates. Skin tone affects character rendering only and must not change the selected outfit or reminder variants.
 
 **Acceptance check:** Record results for multiple location/date combinations, navigate away, reload, and return. Confirm exact variant stability. Across a larger fixture set, confirm that outfit and reminder indices do not always form fixed pairs and that all eligible variants can occur.
 
 ### R6. Location persistence and privacy
 
-The app may switch among multiple searched locations during a session, but only the latest selected location persists across reloads. Persisted coordinates are rounded to three decimal places to reduce locally stored precision; active-session coordinates may retain provider precision for the current request. It must not store a favorites list, location history, precise device-position history, account, analytics identifier, or weather history. Units, character, and style preferences may persist locally. The information screen must explain local storage and the coordinates sent to Open-Meteo.
+The app may switch among multiple searched locations during a session, but only the latest selected location persists across reloads. Persisted coordinates are rounded to three decimal places to reduce locally stored precision; active-session coordinates may retain provider precision for the current request. It must not store a favorites list, location history, precise device-position history, account, analytics identifier, or weather history. Units, character, style, and skin-tone preferences may persist locally. The information screen must explain local storage and the coordinates sent to Open-Meteo.
 
 **Acceptance check:** Select three locations, reload, and confirm that only the last one is restored with coordinates rounded to three decimals. Inspect local storage and confirm it contains one location plus approved preferences only.
 
@@ -160,7 +160,7 @@ The application holds one serializable recommendation object for the active loca
 {
   location, date, contextLabel, units,
   weather: { current, hourly, daily, condition },
-  preferences: { character, style },
+  preferences: { character, style, skinTone },
   category,
   modifiers: { rain, snow, wind, uv, hydration, layers, thunderstorm },
   outfit: { recipeId, layers, accessibleSummary },
@@ -180,7 +180,7 @@ Define at least three outfit variations for each recommendation category and at 
 
 ### Outfit recipe matrix
 
-Each cell defines three reviewed recipes. The same semantic recipes are fitted to both character presentations with equivalent coverage. Colors and patterns may vary, but required protective layers may not be removed.
+Each cell defines three reviewed recipes. The same semantic recipes are fitted to all four character looks with equivalent coverage. Colors and patterns may vary, but required protective layers may not be removed.
 
 | Category | Campus Casual | Sporty | Streetwear |
 | --- | --- | --- | --- |
@@ -212,18 +212,16 @@ Create a base seed from normalized coordinates rounded to three decimals, local 
 
 List every art and graphical asset: the character, each outfit variation, icons, and any other visuals. For each, note where it appears, its format, and whether it will be created, generated, or licensed, with its credit or license.
 
-All shipped artwork will be original, code-native SVG created for this prototype and credited to `xiaoyuex_x`; no reference image is an application asset. Reusable symbols may live in grouped SVG sprite files, while the outfit manifest names every assembled recipe from the matrix above.
+All shipped artwork will be original, code-native SVG created for this prototype and credited to `xiaoyuex_x`; no reference image is an application asset. Character and wearable symbols use a shared integer pixel grid, hard-edged shapes, and aligned body anchors to create a crisp pixel-art appearance without raster-image blur. Reusable symbols may live in grouped SVG sprite files, while the outfit manifest names every assembled recipe from the matrix above. Weather, reminder, status, decorative, and interface artwork retains its existing visual treatment.
 
 | Asset or asset family | Use | Format and quantity | Source/credit |
 | --- | --- | --- | --- |
-| Male base character | Main character stage and preference preview | SVG, 1 | Original; `xiaoyuex_x` |
-| Female base character | Main character stage and preference preview | SVG, 1 | Original; `xiaoyuex_x` |
-| Hair/face/base accessories | Character presentation details | SVG symbols, approximately 6 | Original; `xiaoyuex_x` |
+| Character looks | Main character stage and preference preview | SVG, 4 | Original; `xiaoyuex_x` |
 | Upper-body garments | Tops, midlayers, sweaters, and jackets used by all 45 semantic recipes | Reusable SVG symbols, approximately 24 | Original; `xiaoyuex_x` |
 | Lower-body garments | Shorts, jeans, trousers, joggers, leggings, and thermal pants | Reusable SVG symbols, approximately 14 | Original; `xiaoyuex_x` |
 | Footwear | Canvas shoes, trainers, sneakers, high-tops, casual boots, and winter/waterproof boots | Reusable SVG symbols, approximately 10 | Original; `xiaoyuex_x` |
 | Weather modifier garments | Rain shell, windbreaker, puffer/insulating layer, hats, and gloves | Reusable SVG symbols, approximately 8 | Original; `xiaoyuex_x` |
-| Outfit recipes | Three variants × five categories × three styles × two presentations | Data manifest, 90 assembled recipes | Original combinations; `xiaoyuex_x` |
+| Outfit recipes | Three variants × five categories × three styles × four looks | Data manifest, 180 assembled recipes | Original combinations; `xiaoyuex_x` |
 | Weather icons | Clear day/night, partly cloudy, cloudy, rain, snow, wind, thunderstorm | SVG, 8 | Original; `xiaoyuex_x` |
 | Reminder icons | Umbrella, waterproof footwear/snow, wind layer, sunscreen/sun, water bottle, removable layer, storm | SVG, 7 | Original; `xiaoyuex_x` |
 | Status icons | Location, loading, slow connection, offline/error, retry, information | SVG, 6 | Original; `xiaoyuex_x` |
@@ -243,7 +241,7 @@ Record features intentionally excluded from this project.
 - Weather maps, radar, historical weather, or forecasts beyond seven days
 - Medical advice, emergency alert replacement, or guarantees of personal comfort
 - Exact cellular signal-strength measurement
-- Additional character presentations or clothing styles beyond the approved two presentations and three styles
+- Additional character looks or clothing styles beyond the approved four looks and three styles
 - AI-generated or third-party production artwork
 - Native mobile applications or offline weather updates
 
@@ -254,6 +252,9 @@ After implementation or testing, record requirement changes and the evidence tha
 - **September 28, 2026 — Initial specification draft:** Consolidated the Developer's phone flow into two navigable screens and panels, selected Desktop Main Layout 1, removed multiple saved locations and notifications, limited styles to the approved three, and retained Fahrenheit as the default. The original phone and desktop sketches were saved in `reference/` and linked above.
 - **September 28, 2026 — Asset inventory refinement:** Construction produced 90 reusable SVG symbols: 2 character bases with integrated face/hair details, 25 upper-body layers, 14 lower-body layers, 10 footwear layers, 8 modifier/accessory layers, 10 weather icons, 7 reminder icons, 6 status icons, and 8 decorative symbols. Fog and unknown-state icons increased the weather count from the approximate table, while integrated character details replaced separate face/hair symbols. Recipe, style, category, and presentation coverage did not change.
 - **September 28, 2026 — Persistence precision clarification:** Limited the persisted latest-location coordinates to three decimal places, while allowing the active session to use provider precision. This reduces stored location precision without adding history or changing the approved location flow.
+- **October 5, 2026 — Pixel-character redesign:** Replaced the smooth flat-vector character direction with a crisp, game-inspired pixel-art system after the Developer found the implemented characters and layered clothing visually unsuccessful. The approved change covers both character bases and all wearable layers only. It preserves the existing interface, icons, two presentations, three styles, five weather categories, 90 assembled-outfit coverage, recommendation logic, and accessible summaries. New acceptance checks require aligned layers, coordinated outfits, hard SVG edges, and clarity across phone, laptop, and 200% zoom views.
+- **October 5, 2026 — Live preview and skin-tone controls:** Review of the first pixel-art pass prompted a second character revision with a larger head, shorter body, more expressive details, and a less rigid stance. Added four visual skin-tone swatch buttons with hidden accessible names, immediate unsaved character/style/skin preview changes inside the preferences dialog, and persistence after Apply. Skin tone is deliberately excluded from deterministic outfit selection so appearance changes do not unexpectedly change the recommended clothing.
+- **October 5, 2026 — Four-look customization:** Replaced the binary Male/Female preference with Cropped, Curls, Long waves, and Soft bob character looks; expanded skin tones from four to five; and consolidated the dialog around one large live preview. The fitted manifest now contains 180 character/category/style entries while retaining the same 45 reviewed semantic outfit recipes.
 
 ## Approval
 

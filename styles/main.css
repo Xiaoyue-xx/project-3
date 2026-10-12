@@ -153,7 +153,7 @@ h2 { font-size: clamp(1.3rem, 2vw, 1.75rem); }
 .weather-facts dt { color: var(--ink-soft); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
 .weather-facts dd { margin: 0.15rem 0 0; font-size: 0.95rem; font-weight: 900; }
 .character-stage { position: relative; display: grid; min-height: 25rem; margin: 0; place-items: end center; }
-.character-art { z-index: 2; width: min(100%, 17rem); height: 25rem; overflow: visible; filter: drop-shadow(0.35rem 0.5rem 0 rgb(36 28 53 / 14%)); }
+.character-art { z-index: 2; width: min(100%, 17rem); height: 25rem; overflow: visible; filter: drop-shadow(0.35rem 0.5rem 0 rgb(36 28 53 / 14%)); image-rendering: pixelated; shape-rendering: crispEdges; }
 .stage-skyline { position: absolute; z-index: 1; right: -2rem; bottom: -1rem; left: -2rem; width: calc(100% + 4rem); height: 9rem; opacity: 0.65; }
 .stage-sticker { position: absolute; z-index: 3; right: 0; bottom: 2rem; max-width: 8rem; padding: 0.45rem 0.6rem; transform: rotate(-5deg); border: 0.1rem solid var(--border); border-radius: 0.75rem; background: var(--paper); font-size: 0.78rem; font-weight: 900; }
 
@@ -250,20 +250,56 @@ body[data-screen="information"] .location-control, body[data-screen="information
 
 .choice-fieldset { margin: 0 0 1.2rem; padding: 0; border: 0; }
 .choice-fieldset legend { margin-bottom: 0.65rem; }
-.character-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+.preferences-dialog { width: min(54rem, calc(100% - 1.25rem)); }
+.preference-editor { display: grid; grid-template-columns: minmax(15rem, 0.8fr) minmax(20rem, 1.2fr); gap: 1.25rem; }
+.preference-preview-stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  min-height: 31rem;
+  margin: 0 0 1.2rem;
+  padding: 1rem 1rem 0.8rem;
+  place-items: center;
+  align-self: start;
+  overflow: hidden;
+  border: 0.125rem solid #cfc5e6;
+  border-radius: 1.35rem;
+  background:
+    radial-gradient(circle at 25% 20%, rgb(255 255 255 / 80%) 0 0.32rem, transparent 0.36rem),
+    linear-gradient(155deg, #dff3ff 0 48%, #f6e8ff 48% 72%, #ffe4ef 72%);
+}
+.preference-preview-stage::after { position: absolute; right: 8%; bottom: 3.4rem; left: 8%; height: 2.2rem; border-radius: 50%; background: rgb(53 39 78 / 12%); content: ""; }
+.preference-preview-stage svg { z-index: 1; width: min(100%, 14rem); height: 25rem; image-rendering: pixelated; shape-rendering: crispEdges; filter: drop-shadow(0.3rem 0.45rem 0 rgb(40 31 59 / 14%)); }
+.preference-preview-stage figcaption { z-index: 1; width: 100%; padding: 0.55rem; border-radius: 999px; background: rgb(255 255 255 / 76%); font-size: 0.78rem; font-weight: 900; text-align: center; }
+.preview-badge { position: absolute; z-index: 2; top: 0.8rem; left: 0.8rem; padding: 0.35rem 0.6rem; border: 0.1rem solid var(--border); border-radius: 999px; color: var(--purple-dark); background: var(--yellow-pale); font-size: 0.68rem; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; }
+.preference-controls { min-width: 0; }
+.character-choices { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; }
 .character-choices legend { grid-column: 1 / -1; }
-.visual-choice { position: relative; display: grid; min-width: 0; padding: 0.7rem; place-items: center; border: 0.125rem solid var(--border-soft); border-radius: 1rem; background: linear-gradient(150deg, var(--blue-pale), var(--pink-pale)); cursor: pointer; }
+.visual-choice { position: relative; display: grid; min-width: 0; padding: 0.45rem 0.3rem 0.55rem; place-items: center; border: 0.125rem solid var(--border-soft); border-radius: 1rem; background: linear-gradient(150deg, #eef8ff, #fff2f7); cursor: pointer; }
 .visual-choice:has(input:checked) { border-color: var(--purple); box-shadow: inset 0 0 0 0.15rem var(--purple-pale); }
-.visual-choice input { position: absolute; top: 0.7rem; left: 0.7rem; width: 1.25rem; height: 1.25rem; accent-color: var(--purple); }
-.visual-choice svg { width: 6rem; height: 9rem; }
-.visual-choice .male-preview { --garment-primary: #7f9fcf; --garment-secondary: #bee6ff; --garment-dark: #3f465c; --shoe-color: #fffdf9; }
-.visual-choice .female-preview { --garment-primary: #ff82bd; --garment-secondary: #a7e5ff; --garment-dark: #4a526c; --shoe-color: #fffdf9; }
-.visual-choice span { font-weight: 900; }
+.visual-choice input { position: absolute; opacity: 0; }
+.visual-choice svg { width: 3.8rem; height: 5.9rem; image-rendering: pixelated; shape-rendering: crispEdges; }
+.visual-choice span { overflow: hidden; font-size: 0.7rem; font-weight: 900; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+.visual-choice:has(input:focus-visible) { outline: 0.2rem solid #006f8e; outline-offset: 0.15rem; }
+.skin-tone-choices { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+.skin-tone-choices legend { flex-basis: 100%; }
+.skin-tone-choices label { position: relative; display: grid; cursor: pointer; }
+.skin-tone-choices input { position: absolute; opacity: 0; }
+.skin-tone-choices label > span { display: block; width: 2.5rem; height: 2.5rem; border: 0.2rem solid white; border-radius: 50%; box-shadow: 0 0 0 0.12rem var(--border-soft); }
+.skin-tone-choices input:checked + span { box-shadow: 0 0 0 0.2rem var(--purple), 0 0 0 0.38rem white; }
+.skin-tone-choices input:focus-visible + span { outline: 0.2rem solid #006f8e; outline-offset: 0.3rem; }
+.tone-deep { background: #6f3f31; }
+.tone-dark { background: #92573f; }
+.tone-medium { background: #c98262; }
+.tone-tan { background: #dfa07b; }
+.tone-light { background: #f2bd9e; }
 .style-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
 .style-choices legend { grid-column: 1 / -1; }
 .style-choices label { position: relative; cursor: pointer; }
 .style-choices input { position: absolute; opacity: 0; }
-.style-choices span { display: grid; min-height: 3rem; padding: 0.45rem; place-items: center; border: 0.125rem solid var(--border-soft); border-radius: 0.8rem; font-size: 0.78rem; font-weight: 900; text-align: center; }
+.style-choices span { display: grid; min-height: 4rem; padding: 0.55rem; place-content: center; border: 0.125rem solid var(--border-soft); border-radius: 0.8rem; font-size: 0.78rem; font-weight: 900; text-align: center; }
+.style-choices strong { font-size: 0.82rem; }
+.style-choices small { margin-top: 0.2rem; color: var(--ink-soft); font-size: 0.65rem; font-weight: 700; }
 .style-choices input:checked + span { border-color: var(--purple); color: var(--purple-dark); background: var(--purple-pale); }
 .style-choices input:focus-visible + span { outline: 0.2rem solid #006f8e; outline-offset: 0.2rem; }
 .primary-action { width: 100%; }
@@ -297,6 +333,9 @@ body[data-screen="information"] .location-control, body[data-screen="information
   .recommendation-column { grid-row: 2; }
   .forecast-card { grid-row: 3; }
   .app-shell[data-view="today"] .forecast-card, .app-shell[data-view="forecast"] .weather-character, .app-shell[data-view="forecast"] .recommendation-column { display: none; }
+  .preference-editor { grid-template-columns: 1fr; }
+  .preference-preview-stage { position: relative; min-height: 23rem; }
+  .preference-preview-stage svg { height: 18rem; }
 }
 
 @media (max-width: 31rem) {
@@ -321,7 +360,9 @@ body[data-screen="information"] .location-control, body[data-screen="information
   .app-dialog { border-radius: 1.1rem; }
   .search-row { grid-template-columns: 1fr; }
   .search-row button { width: 100%; }
-  .style-choices { grid-template-columns: 1fr; }
+  .character-choices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .style-choices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .style-choices span { min-height: 4.5rem; padding-inline: 0.25rem; }
   .information-grid { grid-template-columns: 1fr; }
   .settings-card, .creator-card { grid-column: auto; }
   .information-hero { min-height: 23rem; border-radius: 1.25rem; }

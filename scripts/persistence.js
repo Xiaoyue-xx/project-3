@@ -1,4 +1,4 @@
-import { CHARACTER_PRESENTATIONS, OUTFIT_STYLES } from "../data/content.js";
+import { CHARACTER_PRESENTATIONS, OUTFIT_STYLES, SKIN_TONES } from "../data/content.js";
 
 export const STORAGE_KEY = "what-to-wear.settings.v1";
 export const STORAGE_VERSION = 1;
@@ -7,7 +7,8 @@ export const UNIT_SYSTEMS = Object.freeze(["fahrenheit", "celsius"]);
 export const DEFAULT_SETTINGS = Object.freeze({
   latestLocation: null,
   units: "fahrenheit",
-  character: "female",
+  character: "waves",
+  skinTone: "medium",
   style: "campus-casual",
 });
 
@@ -52,7 +53,11 @@ export function loadPersistedSettings(storage) {
       units: UNIT_SYSTEMS.includes(parsed.units) ? parsed.units : DEFAULT_SETTINGS.units,
       character: CHARACTER_PRESENTATIONS.includes(parsed.character)
         ? parsed.character
-        : DEFAULT_SETTINGS.character,
+        : parsed.character === "male" ? "crop"
+          : parsed.character === "female" ? "waves" : DEFAULT_SETTINGS.character,
+      skinTone: SKIN_TONES.some(({ id }) => id === parsed.skinTone)
+        ? parsed.skinTone
+        : DEFAULT_SETTINGS.skinTone,
       style: OUTFIT_STYLES.includes(parsed.style) ? parsed.style : DEFAULT_SETTINGS.style,
     });
   } catch {
@@ -70,6 +75,9 @@ export function persistApprovedSettings(storage, state) {
     character: CHARACTER_PRESENTATIONS.includes(state.preferences?.character)
       ? state.preferences.character
       : DEFAULT_SETTINGS.character,
+    skinTone: SKIN_TONES.some(({ id }) => id === state.preferences?.skinTone)
+      ? state.preferences.skinTone
+      : DEFAULT_SETTINGS.skinTone,
     style: OUTFIT_STYLES.includes(state.preferences?.style)
       ? state.preferences.style
       : DEFAULT_SETTINGS.style,

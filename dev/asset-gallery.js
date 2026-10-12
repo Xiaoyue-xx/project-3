@@ -1,12 +1,16 @@
-import { ASSEMBLED_OUTFITS, ASSET_INVENTORY, COLOR_PALETTES } from "../data/assets.js";
+import {
+  ASSEMBLED_OUTFITS,
+  ASSET_INVENTORY,
+  COLOR_PALETTES,
+  getAssetHref,
+} from "../data/assets.js";
 
-const SVG_PATH = "../assets/art.svg";
 const outfitGallery = document.querySelector("[data-outfit-gallery]");
 const iconGallery = document.querySelector("[data-icon-gallery]");
 const filter = document.querySelector("[data-gallery-filter]");
 
 function useElement(symbolId) {
-  return `<use href="${SVG_PATH}#${symbolId}"></use>`;
+  return `<use href="${getAssetHref(symbolId, "../")}"></use>`;
 }
 
 if (outfitGallery) {
@@ -16,6 +20,7 @@ if (outfitGallery) {
       `--garment-primary:${palette.primary}`,
       `--garment-secondary:${palette.secondary}`,
       `--garment-dark:${palette.dark}`,
+      `--shoe-color:${palette.shoe}`,
     ].join(";");
     return `
       <article class="outfit-card" data-character="${outfit.character}">
