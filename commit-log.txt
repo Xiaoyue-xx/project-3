@@ -1,3 +1,21 @@
+commit a4b8c7d99402b5bd81db916bf181441933461101
+Date: 2026-10-12 16:20:27 -0500
+
+docs: record live Pages deployment
+
+Document the source repository, live Pages URL, and deployed browser verification while keeping remaining acceptance checks explicit.
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+----
+commit 927c01352b0ac90aecbc761cc413d826d244ed10
+Date: 2026-10-12 16:17:08 -0500
+
+docs: include implementation transcript in history
+
+Refresh commit-log.txt after adding the implementation transcript.
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+----
 commit f226227f2bb0779004c82c1340f434cbe3d5a519
 Date: 2026-10-12 16:17:01 -0500
 
