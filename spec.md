@@ -112,7 +112,7 @@ The Information/Settings screen must identify `xiaoyuex_x` as creator, disclose 
 
 ### R12. Public deployment
 
-The finished static app must be deployed from its GitHub repository to a public GitHub Pages HTTPS URL. Relative asset and navigation paths must work at the repository subpath.
+The finished static app must be deployed from the runtime-only `weatherpublic` GitHub repository to `https://xiaoyue-xx.github.io/weatherpublic/`. The full project source belongs in a separate `project-3` repository. Relative asset and navigation paths must work at the Pages repository subpath.
 
 **Acceptance check:** Open the public URL in a clean phone browser and laptop browser, reload both routes/views, request location permission, fetch live data, and confirm no mixed-content, path, or console errors.
 
@@ -256,6 +256,7 @@ After implementation or testing, record requirement changes and the evidence tha
 - **October 5, 2026 — Live preview and skin-tone controls:** Review of the first pixel-art pass prompted a second character revision with a larger head, shorter body, more expressive details, and a less rigid stance. Added four visual skin-tone swatch buttons with hidden accessible names, immediate unsaved character/style/skin preview changes inside the preferences dialog, and persistence after Apply. Skin tone is deliberately excluded from deterministic outfit selection so appearance changes do not unexpectedly change the recommended clothing.
 - **October 5, 2026 — Four-look customization:** Replaced the binary Male/Female preference with Cropped, Curls, Long waves, and Soft bob character looks; expanded skin tones from four to five; and consolidated the dialog around one large live preview. The fitted manifest now contains 180 character/category/style entries while retaining the same 45 reviewed semantic outfit recipes.
 - **October 12, 2026 — Visual direction and character anatomy:** The interface adopts a pixel-art Y2K treatment (retro window panels, pixel typeface, pixel icons) with no change to behavior, data, or requirements R1-R12. Character bases now use a relaxed asymmetric body (head 88%, visible neck, sloped shoulders, waist/hip shaping, bent elbows, larger hands, defined knees, smaller shoes); the 180 outfit entries and symbol count are unchanged. Headings use the self-hosted Silkscreen font, credited under R11.
+- **October 12, 2026 — Separate source and deployment repositories:** Confirmed `project-3` as the full-source repository and `weatherpublic` as the runtime-only Pages repository, with the deployment target recorded above. This clarifies repository organization without changing product behavior. The target currently returns GitHub Pages 404, so R12 remains unverified.
 
 ## Approval
 
