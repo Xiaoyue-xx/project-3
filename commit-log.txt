@@ -1,3 +1,21 @@
+commit fc80710b85b7685d8a69af795db655a5de4cb9b4
+Date: 2026-10-12 16:29:08 -0500
+
+docs: record first peer usability feedback
+
+Capture P1's mobile test context, positive feedback, quote, and clothing-fit observation while reserving synthesis until the remaining sessions arrive.
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+----
+commit 0d306176dbffe98dbe3cbde7a5dd3d5b91ebdc30
+Date: 2026-10-12 16:20:54 -0500
+
+docs: include live deployment commit in history
+
+Refresh the full Git history export after publishing the deployment evidence.
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+----
 commit 9a00f3774f89980ca27903accfddb6991f02001a
 Date: 2026-10-12 16:20:30 -0500
 
