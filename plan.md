@@ -147,15 +147,14 @@ After all sessions, group repeated observations by severity and frequency. Prefe
 
 ### Session notes received
 
-#### P1
+The feedback below was supplied as a combined summary of three peers, so observations are not assigned to individual participant labels except where noted. P1 used a phone; the device for the other participants, viewport, input method, date, and task sequences were not provided.
 
-- Device: Phone. Viewport, input method, date, and specific task sequence: Not provided.
-- Success: Yes. The participant understood the overall character and outfit concept.
-- Positive observations: The color palette was visually appealing; the pixel-art style felt creative and gave the site a unique personality.
-- Observed barrier: The character's clothing looked unusual and did not fit the body naturally; clothing design/proportions made the outfit look less natural.
-- Exact comment: “The colors are really nice, and the pixel style is very unique, but the clothes on the character look a little weird.”
-- Interpretation (not an observation): Review outfit/body proportions and silhouette consistency if this concern recurs in other sessions. One participant's comment alone is not enough to select the final revision.
-- P2 and P3: Awaiting notes.
+- Positive observations: Peers liked the color palette and pixel-art style; the style was described as creative, unique, and visually appealing. One peer had no suggested changes and liked the site.
+- Observed barrier 1: One peer said the character's clothing looked unusual and did not fit the body naturally. The group summary reported that the overall character and outfit concept was understood.
+- Exact comment provided: “The colors are really nice, and the pixel style is very unique, but the clothes on the character look a little weird.” Participant attribution was not confirmed.
+- Observed barrier 2: Another peer said the pixel font looked good but may be difficult to read. No exact quote was provided.
+- Interpretation (not an observation): Check the font's readability and clothing/body proportions while preserving the appreciated pixel-art direction. Each concern was reported by one peer, so neither should be represented as a repeated finding.
+- The specific tasks completed, success by task, and participant-to-observation mapping were not recorded.
 
 ## Revisions
 
